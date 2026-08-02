@@ -18,7 +18,7 @@
           <div class="hud-card player-hud"><div class="player-heading"><strong>여행자</strong><b id="hud-level">Lv. 1</b></div><div class="stat-row"><span>HP</span><strong id="hp-text">100 / 100</strong></div><div class="meter hp-meter"><i id="hp-bar"></i></div><div class="stat-row xp-label"><span>EXP</span><strong id="xp-text">0 / 30</strong></div><div class="meter xp-meter"><i id="xp-bar"></i></div></div>
           <div class="hud-card quest"><span>현재 목표</span><strong id="quest-text">촌장과 대화하세요</strong></div>
           <div class="minimap-wrap"><div><span id="map-name">별빛 마을</span><b>N</b></div><canvas id="minimap" width="150" height="82" aria-label="미니맵"></canvas></div>
-          <div class="controls"><span>이동 <b>방향키</b> · 상호작용 <b>E</b> · 공격 <b>SPACE</b></span><div class="quickslots"><button id="quick-q" data-quick="q" type="button"><kbd>Q</kbd><i>비어 있음</i></button><button id="quick-w" data-quick="w" type="button"><kbd>W</kbd><i>비어 있음</i></button></div></div>
+          <div class="controls"><span>이동 <b>방향키</b> · 상호작용 <b>E</b> · 공격 <b>SPACE</b></span><div class="quickslots"><button id="quick-q" data-quick="q" type="button"><kbd>Q</kbd><i>비어 있음</i><span class="cooldown-mask"><em></em></span></button><button id="quick-w" data-quick="w" type="button"><kbd>W</kbd><i>비어 있음</i><span class="cooldown-mask"><em></em></span></button></div></div>
         </div>
         <div id="dialogue" class="panel hidden" role="dialog" aria-modal="true">
           <img id="dialogue-portrait" class="dialogue-portrait hidden" alt="" /><div class="dialogue-copy"><span id="speaker"></span><p id="dialogue-text"></p><div id="dialogue-choices" class="dialogue-choices hidden"></div></div><button id="dialogue-next" type="button">계속</button>
