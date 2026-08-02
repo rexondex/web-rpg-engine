@@ -115,4 +115,44 @@ dialog > p { color: #a9b9ad; font-size: 13px; }
 .mobile-controls { display: none; position: absolute; z-index: 7; inset: auto 12px 12px; justify-content: space-between; pointer-events: none; }.mobile-controls button { width: 48px; height: 48px; padding: 0; color: #f4e6be; background: #14292cbb; border: 1px solid #9caa8c99; border-radius: 50%; pointer-events: auto; touch-action: none; user-select: none; }.dpad { display: grid; grid-template-columns: repeat(3, 48px); gap: 3px; }.dpad button:first-child { grid-column: 2; }.dpad button:nth-child(2){grid-column:1}.dpad button:nth-child(3){grid-column:2}.dpad button:nth-child(4){grid-column:3}.mobile-actions { display: flex; gap: 9px; align-items: end; }.mobile-actions button:last-child{width:58px;height:58px;background:#60443cbb}
 .ending-screen { position: fixed; z-index: 100; inset: 0; display: grid; place-content: center; justify-items: center; padding: 30px; color: #f5ebce; text-align: center; background: radial-gradient(circle,#263e40,#081113 72%); }.ending-screen.hidden { display: none; }.ending-screen>span{color:#e4c579;letter-spacing:.4em}.ending-screen h2{font:700 clamp(30px,6vw,64px) 'Nanum Myeongjo',serif}.ending-screen p{color:#b9c9bd}.ending-screen button{margin-top:25px;padding:10px 24px;color:#152725;background:#ead69d;border:0;border-radius:5px}
 .world-help { color: #91a39a; font-size: 12px; }.world-grid { display: grid; width: 100%; gap: 5px; margin: 18px 0 5px; padding: 12px; overflow: hidden; background: #0d1e20; border: 1px solid #344b47; border-radius: 8px; }.world-cell { display: grid; align-content: center; min-width: 0; padding: 5px; color: #91a69b; background: #1a3032; border: 1px solid #405854; border-radius: 3px; text-align: center; }.world-cell span { color: #718b81; font: 8px monospace; }.world-cell strong { margin: 2px 0; overflow: hidden; color: #d4d9c7; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }.world-cell.current { background: #3b4937; border-color: #e1c36f; box-shadow: 0 0 12px #d4b66033; }.world-cell.current span,.world-cell.current strong{color:#f1dc9a}
+
+/* 게임 화면을 가리지 않는 반투명 글래스 UI */
+.hud-card, .minimap-wrap, .controls {
+  background: linear-gradient(145deg, #10252959, #07161942);
+  border-color: #d9e5c844;
+  box-shadow: 0 4px 14px #0002, inset 0 1px #ffffff10;
+  -webkit-backdrop-filter: blur(3px) saturate(1.08);
+  backdrop-filter: blur(3px) saturate(1.08);
+}
+.quickslots button { background: #07161961; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.quickslots button.assigned { background: #263b356b; }
+.panel {
+  background: linear-gradient(145deg, #10282d82, #07171b78);
+  border-color: #ead59f78;
+  box-shadow: 0 9px 28px #0004, inset 0 1px #ffffff12;
+  -webkit-backdrop-filter: blur(4px) saturate(1.1);
+  backdrop-filter: blur(4px) saturate(1.1);
+}
+.dialogue-choices button { background: #17383b78; }
+dialog {
+  background: linear-gradient(145deg, #10272b8a, #09191d91);
+  border-color: #b9c9b260;
+  box-shadow: 0 18px 52px #0005, inset 0 1px #ffffff10;
+  -webkit-backdrop-filter: blur(5px) saturate(1.08);
+  backdrop-filter: blur(5px) saturate(1.08);
+}
+dialog::backdrop { background: #03090b24; -webkit-backdrop-filter: blur(1px); backdrop-filter: blur(1px); }
+.topbar button, dialog button, dialog label { background: #1a34386b; }
+.topbar button:hover, dialog button:hover, dialog label:hover { background: #3150548c; }
+.slots article, .quest-entry, .inventory-list article, .inventory-slot, .world-cell, .summary-grid div { background: #122c3066; }
+.world-cell.current { background: #3b493775; box-shadow: 0 0 10px #d4b66024; }
+.quest-tabs button.active { color: #f6e8be; background: #927b3f70; }
+.inventory-slot:focus, .inventory-slot:hover { background: #31504e82; }
+.inventory-tooltip, .world-grid, #content-summary pre { background: #081a1d70; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.item-icon, .quest-entry header b { background: #25403e61; }
+.level-orb { background: radial-gradient(circle, #31524d8c, #172e306b); }
+#toast { color: #fff2cb; background: #1e34358f; border: 1px solid #efd48670; -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+.mobile-controls button { background: #0b202368; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.mobile-actions button:last-child { background: #5b332f73; }
+.ending-screen { background: radial-gradient(circle, #263e40b8, #081113c4 72%); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
 @media (max-width: 700px), (pointer: coarse) { #app { padding: 14px 10px; } .topbar { align-items: start; } .top-actions { max-width: 58%; flex-wrap: wrap; justify-content: end; } .controls>span, .minimap-wrap { display: none; } .controls { bottom: 10px; padding: 4px; } .mobile-controls { display: flex; } .hud-card { min-width: 125px; } .hud-card:first-child { left: 10px; bottom: 122px; min-width: 145px; } .hud-card.quest { top: 9px; left: auto; right: 9px; min-width: 210px; max-width: 55%; transform: none; } .inventory-layout { grid-template-columns: 1fr; } .inventory-tooltip { min-height: 150px; } .panel { left: 3%; right: 3%; bottom: 3%; padding: 15px 80px 15px 16px; min-height: 112px; } .dialogue-portrait { width: 96px; height: 118px; left: 8px; } .panel:has(.dialogue-portrait:not(.hidden)) .dialogue-copy { margin-left: 94px; } .panel p { font-size: 14px; } }
