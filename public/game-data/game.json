@@ -1,6 +1,6 @@
 {
   "$schema": "./game.schema.json",
-  "protocolVersion": 2,
+  "protocolVersion": 3,
   "game": {
     "id": "starlight-valley",
     "title": "별빛 골짜기",
@@ -81,7 +81,8 @@
     ],
     "startingItems": {
       "potion": 2
-    }
+    },
+    "startingSkills": ["power_strike", "first_aid"]
   },
   "combat": {
     "attackCooldownMs": 420,
@@ -109,6 +110,15 @@
       "maxStack": 99,
       "value": 4
     },
+    "bronze_sword": {
+      "name": "청동 검",
+      "description": "초보 모험가가 쓰는 단단한 검.",
+      "type": "equipment",
+      "slot": "weapon",
+      "modifiers": { "attack": 5 },
+      "maxStack": 1,
+      "value": 60
+    },
     "miras_letter": {
       "name": "미라의 편지",
       "description": "카엘에게 전할 짧은 편지.",
@@ -116,6 +126,19 @@
       "maxStack": 1,
       "value": 0
     }
+  },
+  "equipmentSlots": [
+    { "id": "weapon", "label": "무기" },
+    { "id": "armor", "label": "방어구" },
+    { "id": "accessory", "label": "장신구" }
+  ],
+  "skills": {
+    "power_strike": { "name": "강타", "description": "다음 공격을 강하게 내리친다.", "cooldownMs": 2200, "range": 82, "power": 1.8, "target": "enemy" },
+    "first_aid": { "name": "응급 처치", "description": "생명력을 20 회복한다.", "cooldownMs": 5000, "range": 0, "power": 0, "target": "self", "actions": [{ "type": "heal", "amount": 20 }] }
+  },
+  "effects": {
+    "regeneration": { "name": "재생", "durationMs": 6000, "tickMs": 1000, "healPerTick": 3 },
+    "poison": { "name": "중독", "durationMs": 5000, "tickMs": 1000, "damagePerTick": 2 }
   },
   "monsters": {
     "green_slime": {
@@ -151,6 +174,11 @@
       "speed": 85,
       "aggroRange": 250,
       "xp": 25,
+      "boss": true,
+      "patterns": [
+        { "id": "enraged_dash", "hpBelow": 0.5, "cooldownMs": 3000, "type": "dash", "power": 2 },
+        { "id": "mist_burst", "hpBelow": 0.25, "cooldownMs": 5000, "type": "area", "power": 1.4 }
+      ],
       "drops": []
     }
   },
@@ -217,7 +245,8 @@
       "texture": "lina",
       "portrait": "portrait_lina",
       "scale": 0.72,
-      "dialogue": "lina"
+      "dialogue": "lina",
+      "shop": "general_store"
     },
     "mira": {
       "name": "약초꾼 미라",
@@ -233,6 +262,12 @@
       "scale": 0.72,
       "dialogue": "kael"
     }
+  },
+  "currencies": {
+    "gold": { "name": "골드", "symbol": "G", "startingAmount": 100 }
+  },
+  "shops": {
+    "general_store": { "name": "리나의 잡화점", "currency": "gold", "items": [{ "itemId": "potion", "buy": 15, "sell": 7 }, { "itemId": "bronze_sword", "buy": 60, "sell": 30 }] }
   },
   "dialogues": {
     "rowan": [
@@ -394,6 +429,14 @@
           {
             "type": "completeQuest",
             "id": "forest_message"
+          },
+          {
+            "type": "chapter",
+            "id": "mist_forest"
+          },
+          {
+            "type": "ending",
+            "id": "peace"
           }
         ]
       },
@@ -405,6 +448,16 @@
         ]
       }
     ]
+  },
+  "cutscenes": {
+    "forest_intro": { "steps": [{ "type": "text", "text": "차가운 안개가 길을 삼킵니다." }, { "type": "camera", "zoom": 1.12, "durationMs": 500 }, { "type": "wait", "durationMs": 450 }, { "type": "camera", "zoom": 1, "durationMs": 350 }] }
+  },
+  "chapters": [
+    { "id": "prologue", "title": "제1장 · 초록길의 소동" },
+    { "id": "mist_forest", "title": "제2장 · 안개 너머", "conditions": [{ "type": "questStatus", "id": "slime_cleanup", "value": "completed" }] }
+  ],
+  "endings": {
+    "peace": { "title": "평화로운 골짜기", "text": ["별빛 골짜기에는 다시 평화가 찾아왔습니다.", "당신의 모험은 오래도록 기억될 것입니다."], "conditions": [{ "type": "questStatus", "id": "forest_message", "value": "completed" }] }
   },
   "maps": {
     "village": {
@@ -427,6 +480,9 @@
           "x": 470,
           "y": 350
         }
+      ],
+      "objects": [
+        { "id": "village_shrine", "name": "회복의 샘", "x": 650, "y": 175, "width": 36, "height": 36, "solid": true, "actions": [{ "type": "heal", "amount": 100 }, { "type": "effect", "id": "regeneration" }] }
       ],
       "exits": [
         {
@@ -477,7 +533,9 @@
           "to": "forest",
           "spawnX": 55,
           "spawnY": 270,
-          "label": "안개 숲"
+          "label": "안개 숲",
+          "conditions": [{ "type": "level", "id": "player", "value": 2, "operator": "gte" }],
+          "lockedText": "안개 숲은 위험합니다. 레벨 2부터 입장할 수 있습니다."
         }
       ],
       "spawns": [

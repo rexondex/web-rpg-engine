@@ -4,7 +4,7 @@ import type { SaveData } from '../types';
 import gameData from '../../public/game-data/game.json';
 import type { GameProtocol } from '../types';
 
-const data: SaveData = { version: 3, contentId: 'starlight-valley', contentVersion: '1.0.0', savedAt: '2026-08-02T00:00:00.000Z', playTime: 42, player: { x: 10, y: 20, hp: 88, level: 2, xp: 35, mapId: 'meadow', inventory: { potion: 1 } }, world: { quests: { slime_cleanup: { status: 'active', objectives: { slimes: 1 } } }, defeated: { green_slime: 1 }, flags: {} } };
+const data: SaveData = { version: 4, contentId: 'starlight-valley', contentVersion: '1.0.0', savedAt: '2026-08-02T00:00:00.000Z', playTime: 42, player: { x: 10, y: 20, hp: 88, level: 2, xp: 35, mapId: 'meadow', inventory: { potion: 1 }, equipment: { weapon: null, armor: null, accessory: null }, skills: ['power_strike'], effects: [], currencies: { gold: 75 } }, world: { quests: { slime_cleanup: { status: 'active', objectives: { slimes: 1 } } }, defeated: { green_slime: 1 }, flags: {}, chapter: 'prologue', endings: [] }, settings: { musicVolume: 0.6, effectsVolume: 0.8, muted: false } };
 
 const memory = new Map<string, string>();
 Object.defineProperty(globalThis, 'localStorage', { value: {
