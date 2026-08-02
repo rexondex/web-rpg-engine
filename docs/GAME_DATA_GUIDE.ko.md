@@ -80,6 +80,18 @@ NPC의 `texture`는 월드에 표시할 이미지, `portrait`는 대화창 이�
 
 대화 일러스트는 `assets.images`에 등록한 뒤 NPC의 `portrait` 또는 개별 대화 노드의 `portrait`에서 참조합니다. 노드 단위 지정이 NPC 기본값보다 우선하므로 주인공 혼잣말, 회상, 감정 변화에 맞는 별도 일러스트도 표시할 수 있습니다.
 
+맵의 NPC 배치에는 선택적으로 `route`와 `routeDurationMs`를 지정할 수 있습니다. 현재 프로토콜은 시작 좌표와 첫 번째 경로 지점 사이를 왕복하는 간단한 순찰을 지원합니다. 경로가 없으면 NPC는 정지 상태를 유지합니다.
+
+```json
+{
+  "npcId": "orin",
+  "x": 625,
+  "y": 225,
+  "route": [{ "x": 735, "y": 300 }],
+  "routeDurationMs": 5200
+}
+```
+
 ```json
 {
   "id": "hero_reflection",

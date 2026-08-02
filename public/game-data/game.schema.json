@@ -689,6 +689,14 @@
               },
               "y": {
                 "type": "number"
+              },
+              "route": {
+                "type": "array",
+                "items": { "$ref": "#/$defs/point" }
+              },
+              "routeDurationMs": {
+                "type": "number",
+                "minimum": 250
               }
             }
           }
