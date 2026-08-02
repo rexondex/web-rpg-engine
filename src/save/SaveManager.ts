@@ -28,7 +28,7 @@ export class SaveManager {
     Object.entries(initial.world.quests).forEach(([id, quest]) => { if (!save.world.quests[id]) save.world.quests[id] = quest; });
     Object.keys(save.world.quests).forEach((id) => { if (!config.quests[id]) delete save.world.quests[id]; });
     Object.keys(save.player.inventory).forEach((id) => { if (!config.items[id]) delete save.player.inventory[id]; });
-    save.player.equipment ??= initial.player.equipment; save.player.skills ??= initial.player.skills; save.player.effects ??= []; save.player.currencies ??= initial.player.currencies;
+    save.player.equipment ??= initial.player.equipment; save.player.skills ??= initial.player.skills; save.player.effects ??= []; save.player.currencies ??= initial.player.currencies; save.player.hotbar ??= { q: null, w: null };
     save.world.chapter ??= initial.world.chapter; save.world.endings ??= []; save.settings ??= initial.settings;
     save.contentVersion = config.game.version; return save;
   }

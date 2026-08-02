@@ -69,7 +69,7 @@ export interface SaveData {
   contentVersion: string;
   savedAt: string;
   playTime: number;
-  player: { x: number; y: number; hp: number; level: number; xp: number; mapId: string; inventory: Record<string, number>; equipment: Record<string, string | null>; skills: string[]; effects: ActiveEffect[]; currencies: Record<string, number> };
+  player: { x: number; y: number; hp: number; level: number; xp: number; mapId: string; inventory: Record<string, number>; equipment: Record<string, string | null>; skills: string[]; effects: ActiveEffect[]; currencies: Record<string, number>; hotbar: Record<'q' | 'w', { type: 'item' | 'skill'; id: string } | null> };
   world: { quests: Record<string, QuestProgress>; defeated: Record<string, number>; flags: Record<string, boolean>; chapter: string; endings: string[] };
   settings: { musicVolume: number; effectsVolume: number; muted: boolean };
 }
