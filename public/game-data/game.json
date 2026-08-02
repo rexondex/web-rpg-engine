@@ -48,6 +48,12 @@
       },
       "forest_overlay": {
         "src": "./assets/maps/forest-overlay.svg"
+      },
+      "village_overlay": {
+        "src": "./assets/maps/village-overlay.svg"
+      },
+      "inn_interior": {
+        "src": "./assets/maps/inn-interior.svg"
       }
     },
     "spritesheets": {},
@@ -87,7 +93,8 @@
   "combat": {
     "attackCooldownMs": 420,
     "invulnerabilityMs": 850,
-    "attackRange": 70
+    "attackRange": 70,
+    "lootPickupRange": 58
   },
   "items": {
     "potion": {
@@ -125,6 +132,13 @@
       "type": "quest",
       "maxStack": 1,
       "value": 0
+    },
+    "wolf_fang": {
+      "name": "안개 우두머리의 송곳니",
+      "description": "안개 숲의 보스를 쓰러뜨렸다는 증표.",
+      "type": "material",
+      "maxStack": 99,
+      "value": 45
     }
   },
   "equipmentSlots": [
@@ -167,9 +181,9 @@
       "texture": "wolf",
       "scale": 0.75,
       "stats": {
-        "maxHp": 34,
-        "attack": 14,
-        "defense": 3
+        "maxHp": 110,
+        "attack": 17,
+        "defense": 5
       },
       "speed": 85,
       "aggroRange": 250,
@@ -179,7 +193,10 @@
         { "id": "enraged_dash", "hpBelow": 0.5, "cooldownMs": 3000, "type": "dash", "power": 2 },
         { "id": "mist_burst", "hpBelow": 0.25, "cooldownMs": 5000, "type": "area", "power": 1.4 }
       ],
-      "drops": []
+      "drops": [
+        { "itemId": "wolf_fang", "chance": 1, "min": 1, "max": 1 },
+        { "itemId": "potion", "chance": 0.65, "min": 1, "max": 2 }
+      ]
     }
   },
   "quests": {
@@ -466,6 +483,8 @@
       "grid": { "x": 0, "y": 0 },
       "ground": "#4f7c68",
       "path": "#c9ad78",
+      "backgroundImage": "village_overlay",
+      "backgroundAlpha": 1,
       "spawn": {
         "x": 330,
         "y": 300
@@ -487,6 +506,17 @@
       ],
       "exits": [
         {
+          "x": 470,
+          "y": 225,
+          "width": 58,
+          "height": 42,
+          "direction": "north",
+          "to": "starlight_inn",
+          "label": "별빛 여관 입구",
+          "targetX": 480,
+          "targetY": 470
+        },
+        {
           "x": 930,
           "y": 270,
           "width": 35,
@@ -495,6 +525,25 @@
           "to": "meadow",
           "label": "햇살 들판"
         }
+      ],
+      "spawns": []
+    },
+    "starlight_inn": {
+      "name": "별빛 여관",
+      "subtitle": "따뜻한 불빛이 머무는 실내",
+      "grid": { "x": 0, "y": 1 },
+      "ground": "#6b4531",
+      "path": "#795237",
+      "backgroundImage": "inn_interior",
+      "backgroundAlpha": 1,
+      "spawn": { "x": 480, "y": 475 },
+      "npcs": [],
+      "objects": [
+        { "id": "inn_counter", "name": "여관 카운터", "x": 480, "y": 125, "width": 260, "height": 46, "solid": true },
+        { "id": "inn_hearth", "name": "따뜻한 난로", "x": 820, "y": 280, "width": 42, "height": 42, "actions": [{ "type": "heal", "amount": 100 }] }
+      ],
+      "exits": [
+        { "x": 480, "y": 525, "width": 130, "height": 30, "direction": "south", "to": "village", "label": "마을로 나가기", "targetX": 470, "targetY": 280 }
       ],
       "spawns": []
     },
@@ -597,8 +646,8 @@
           "y": 190,
           "width": 310,
           "height": 250,
-          "max": 2,
-          "respawnMs": 10000
+          "max": 1,
+          "respawnMs": 30000
         }
       ]
     },

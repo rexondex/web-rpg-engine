@@ -41,7 +41,7 @@ export interface GameProtocol {
     animations?: Record<string, { texture: string; start: number; end: number; frameRate: number; repeat?: number }>;
   };
   player: { name: string; texture: string; animation?: string; portrait?: string; scale?: number; startMap: string; startX: number; startY: number; baseStats: Stats; levelGrowth: Partial<Stats>; xpCurve: number[]; startingItems: Record<string, number>; startingSkills?: string[] };
-  combat: { attackCooldownMs: number; invulnerabilityMs: number; attackRange: number };
+  combat: { attackCooldownMs: number; invulnerabilityMs: number; attackRange: number; lootPickupRange?: number };
   items: Record<string, { name: string; description: string; icon?: string; type: 'consumable' | 'quest' | 'material' | 'equipment'; slot?: string; modifiers?: Partial<Stats>; maxStack: number; value: number; actions?: Action[] }>;
   equipmentSlots: { id: string; label: string }[];
   skills: Record<string, { name: string; description: string; icon?: string; effect?: 'burst' | 'slash' | 'ring'; effectColor?: string; cooldownMs: number; range: number; power: number; cost?: number; target: 'enemy' | 'self'; actions?: Action[] }>;
@@ -60,7 +60,7 @@ export interface GameProtocol {
 
 export interface Stats { maxHp: number; attack: number; defense: number }
 export type Direction = 'north' | 'east' | 'south' | 'west';
-export interface MapDefinition { name: string; subtitle: string; grid: { x: number; y: number }; ground: string; path: string; backgroundImage?: string; backgroundAlpha?: number; music?: string; tiled?: { json: string; tilesets: { name: string; image: string }[]; collisionLayer?: string }; spawn: { x: number; y: number }; npcs: { npcId: string; x: number; y: number }[]; objects?: { id: string; name: string; texture?: string; x: number; y: number; width: number; height: number; solid?: boolean; conditions?: Condition[]; actions?: Action[] }[]; exits: { direction: Direction; x: number; y: number; width: number; height: number; to: string; label: string; conditions?: Condition[]; lockedText?: string }[]; spawns: { id: string; monsterId: string; x: number; y: number; width: number; height: number; max: number; respawnMs: number }[] }
+export interface MapDefinition { name: string; subtitle: string; grid: { x: number; y: number }; ground: string; path: string; backgroundImage?: string; backgroundAlpha?: number; music?: string; tiled?: { json: string; tilesets: { name: string; image: string }[]; collisionLayer?: string }; spawn: { x: number; y: number }; npcs: { npcId: string; x: number; y: number }[]; objects?: { id: string; name: string; texture?: string; x: number; y: number; width: number; height: number; solid?: boolean; conditions?: Condition[]; actions?: Action[] }[]; exits: { direction: Direction; x: number; y: number; width: number; height: number; to: string; label: string; targetX?: number; targetY?: number; conditions?: Condition[]; lockedText?: string }[]; spawns: { id: string; monsterId: string; x: number; y: number; width: number; height: number; max: number; respawnMs: number }[] }
 export interface QuestProgress { status: QuestStatus; objectives: Record<string, number>; rewarded?: boolean }
 export interface ActiveEffect { id: string; expiresAt: number; nextTick: number }
 export interface SaveData {
