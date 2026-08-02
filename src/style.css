@@ -110,7 +110,25 @@ dialog > p { color: #a9b9ad; font-size: 13px; }
 .character-sheet dt { color: #92a59c; }
 .character-sheet dd { margin: 0; color: #efe4c4; font-weight: bold; }
 .settings-list { display: grid; gap: 15px; margin: 24px 0 8px; }.settings-list label { display: grid; grid-template-columns: 130px 1fr; align-items: center; color: #c6d2c7; }.settings-list input[type="range"] { width: 100%; accent-color: #dfbf73; }
-#shop-balance { margin: 16px 0 8px; color: #e5ca83; text-align: right; }.content-ok { margin: 20px 0; padding: 12px; color: #a6d1a8; background: #1d3d35; border-radius: 6px; }
+#shop-dialog { width: min(720px, calc(100vw - 28px)); }
+#shop-balance { display: flex; align-items: center; justify-content: space-between; margin: 16px 0 10px; padding: 12px 15px; color: #b9c9bf; background: #10292d99; border: 1px solid #49615a99; border-radius: 8px; }
+#shop-balance strong { color: #f2d37f; font-size: 20px; }
+.shop-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 4px; background: #091c1f77; border-radius: 8px; }
+.shop-tabs button { color: #9cafa5; background: transparent; border-color: transparent; }
+.shop-tabs button.active { color: #f5e5b5; background: #39504899; border-color: #b89e6599; box-shadow: inset 0 -2px #dbbd70; }
+.shop-list { max-height: min(500px, 56vh); padding-right: 3px; }
+.shop-list .shop-entry { grid-template-columns: 48px minmax(0, 1fr) auto; background: #10292d88; }
+.shop-copy { min-width: 0; }
+.shop-copy strong { color: #eee4c7; }
+.shop-copy span { overflow-wrap: anywhere; }
+.shop-copy small { display: block; margin-top: 5px; color: #76968a; font-size: 10px; }
+.shop-price { display: grid; min-width: 82px; gap: 7px; justify-items: stretch; text-align: right; }
+.shop-price b { color: #f1cf77; font-size: 14px; }
+.shop-price.sell b { color: #8ed3a0; }
+.shop-price button { min-width: 76px; }
+.shop-entry.equipped-sale { opacity: .62; }
+.shop-entry button:disabled { cursor: not-allowed; filter: saturate(.3); opacity: .45; }
+.content-ok { margin: 20px 0; padding: 12px; color: #a6d1a8; background: #1d3d35; border-radius: 6px; }
 .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }.summary-grid div { padding: 12px; text-align: center; background: #192f31; border-radius: 6px; }.summary-grid dt { color: #91a49a; font-size: 10px; }.summary-grid dd { margin: 3px 0 0; color: #f0dcaa; font-size: 22px; }#content-summary pre { max-height: 260px; overflow: auto; padding: 12px; color: #b9cabf; background: #0e2022; border-radius: 5px; font-size: 10px; }
 .mobile-controls { display: none; position: absolute; z-index: 7; inset: auto 12px 12px; justify-content: space-between; pointer-events: none; }.mobile-controls button { width: 48px; height: 48px; padding: 0; color: #f4e6be; background: #14292cbb; border: 1px solid #9caa8c99; border-radius: 50%; pointer-events: auto; touch-action: none; user-select: none; }.dpad { display: grid; grid-template-columns: repeat(3, 48px); gap: 3px; }.dpad button:first-child { grid-column: 2; }.dpad button:nth-child(2){grid-column:1}.dpad button:nth-child(3){grid-column:2}.dpad button:nth-child(4){grid-column:3}.mobile-actions { display: flex; gap: 9px; align-items: end; }.mobile-actions button:last-child{width:58px;height:58px;background:#60443cbb}
 .ending-screen { position: fixed; z-index: 100; inset: 0; display: grid; place-content: center; justify-items: center; padding: 30px; color: #f5ebce; text-align: center; background: radial-gradient(circle,#263e40,#081113 72%); }.ending-screen.hidden { display: none; }.ending-screen>span{color:#e4c579;letter-spacing:.4em}.ending-screen h2{font:700 clamp(30px,6vw,64px) 'Nanum Myeongjo',serif}.ending-screen p{color:#b9c9bd}.ending-screen button{margin-top:25px;padding:10px 24px;color:#152725;background:#ead69d;border:0;border-radius:5px}

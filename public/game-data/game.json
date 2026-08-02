@@ -207,6 +207,30 @@
       "value": 40,
       "actions": [{ "type": "heal", "amount": 75 }]
     },
+    "skillbook_whirlwind": {
+      "name": "스킬북: 회전 베기",
+      "description": "주변의 적들을 한 번에 베는 회전 베기를 익힌다.",
+      "type": "consumable",
+      "maxStack": 1,
+      "value": 48,
+      "actions": [{ "type": "learnSkill", "id": "whirlwind" }]
+    },
+    "skillbook_stone_skin": {
+      "name": "스킬북: 바위 피부",
+      "description": "잠시 방어력을 높이는 바위 피부를 익힌다.",
+      "type": "consumable",
+      "maxStack": 1,
+      "value": 65,
+      "actions": [{ "type": "learnSkill", "id": "stone_skin" }]
+    },
+    "skillbook_tidal_burst": {
+      "name": "스킬북: 해일 폭발",
+      "description": "넓은 범위에 물결을 폭발시키는 마법을 익힌다.",
+      "type": "consumable",
+      "maxStack": 1,
+      "value": 90,
+      "actions": [{ "type": "learnSkill", "id": "tidal_burst" }]
+    },
     "cliffguard_armor": {
       "name": "절벽수호 갑옷",
       "description": "강풍과 낙석을 견디도록 보강한 경갑.",
@@ -224,11 +248,15 @@
   ],
   "skills": {
     "power_strike": { "name": "강타", "description": "즉시 주위를 강하게 베어 공격한다.", "effect": "slash", "effectColor": "#ffb347", "cooldownMs": 2200, "range": 82, "power": 1.8, "target": "enemy" },
-    "first_aid": { "name": "응급 처치", "description": "즉시 생명력을 20 회복한다.", "effect": "ring", "effectColor": "#75e6a4", "cooldownMs": 5000, "range": 0, "power": 0, "target": "self", "actions": [{ "type": "heal", "amount": 20 }] }
+    "first_aid": { "name": "응급 처치", "description": "즉시 생명력을 20 회복한다.", "effect": "ring", "effectColor": "#75e6a4", "cooldownMs": 5000, "range": 0, "power": 0, "target": "self", "actions": [{ "type": "heal", "amount": 20 }] },
+    "whirlwind": { "name": "회전 베기", "description": "검풍을 일으켜 주변의 모든 적을 공격한다.", "effect": "slash", "effectColor": "#ffe07a", "cooldownMs": 4500, "range": 115, "power": 1.35, "target": "enemy" },
+    "stone_skin": { "name": "바위 피부", "description": "8초 동안 방어력을 5 높인다.", "effect": "ring", "effectColor": "#c6a477", "cooldownMs": 12000, "range": 0, "power": 0, "target": "self", "actions": [{ "type": "effect", "id": "stone_skin_buff" }] },
+    "tidal_burst": { "name": "해일 폭발", "description": "거센 물결로 넓은 범위의 적을 공격한다.", "effect": "burst", "effectColor": "#62d6ff", "cooldownMs": 6500, "range": 140, "power": 1.6, "target": "enemy" }
   },
   "effects": {
     "regeneration": { "name": "재생", "durationMs": 6000, "tickMs": 1000, "healPerTick": 3 },
-    "poison": { "name": "중독", "durationMs": 5000, "tickMs": 1000, "damagePerTick": 2 }
+    "poison": { "name": "중독", "durationMs": 5000, "tickMs": 1000, "damagePerTick": 2 },
+    "stone_skin_buff": { "name": "바위 피부", "durationMs": 8000, "modifiers": { "defense": 5 } }
   },
   "monsters": {
     "green_slime": {
@@ -448,7 +476,20 @@
     "gold": { "name": "골드", "symbol": "G", "startingAmount": 100 }
   },
   "shops": {
-    "general_store": { "name": "리나의 잡화점", "currency": "gold", "items": [{ "itemId": "potion", "buy": 15, "sell": 7 }, { "itemId": "bronze_sword", "buy": 60, "sell": 30 }] }
+    "general_store": {
+      "name": "리나의 잡화점",
+      "currency": "gold",
+      "sellMultiplier": 0.5,
+      "items": [
+        { "itemId": "potion", "buy": 15, "sell": 7 },
+        { "itemId": "greater_potion", "buy": 55, "sell": 27 },
+        { "itemId": "bronze_sword", "buy": 60, "sell": 30 },
+        { "itemId": "cliffguard_armor", "buy": 210, "sell": 105 },
+        { "itemId": "skillbook_whirlwind", "buy": 95, "sell": 48 },
+        { "itemId": "skillbook_stone_skin", "buy": 130, "sell": 65 },
+        { "itemId": "skillbook_tidal_burst", "buy": 180, "sell": 90 }
+      ]
+    }
   },
   "dialogues": {
     "rowan": [

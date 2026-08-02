@@ -49,7 +49,7 @@ export interface GameProtocol {
   monsters: Record<string, { name: string; texture: string; scale?: number; stats: Stats; speed: number; aggroRange: number; xp: number; boss?: boolean; patterns?: { id: string; hpBelow?: number; cooldownMs: number; type: 'chase' | 'dash' | 'area'; power: number }[]; drops: { itemId: string; chance: number; min: number; max: number }[] }>;
   quests: Record<string, { title: string; giver: string; summary: string; objectives: { id: string; label: string; type: 'kill' | 'talk' | 'visit' | 'collect' | 'custom'; target: number; targetId: string }[]; rewards: { xp?: number; items?: Record<string, number> }; success: string; failure: string }>;
   npcs: Record<string, { name: string; texture: string; portrait?: string; scale?: number; color?: string; dialogue: string; shop?: string }>;
-  shops: Record<string, { name: string; currency: string; items: { itemId: string; buy: number; sell?: number }[] }>;
+  shops: Record<string, { name: string; currency: string; sellMultiplier?: number; items: { itemId: string; buy: number; sell?: number }[] }>;
   currencies: Record<string, { name: string; symbol: string; startingAmount: number }>;
   dialogues: Record<string, DialogueNode[]>;
   cutscenes: Record<string, { steps: { type: 'text' | 'wait' | 'camera' | 'action'; text?: string; durationMs?: number; x?: number; y?: number; zoom?: number; actions?: Action[] }[] }>;
