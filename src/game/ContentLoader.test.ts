@@ -22,4 +22,9 @@ describe('게임 데이터 프로토콜', () => {
     const result = validateContent(invalid).join('\n');
     expect(result).toContain('unknown_slot'); expect(result).toContain('missing_item');
   });
+  it('출구 방향과 월드 격자 좌표 불일치를 검출한다', () => {
+    const invalid = structuredClone(gameData) as GameProtocol;
+    invalid.maps.meadow.exits.find((exit) => exit.to === 'forest')!.direction = 'north';
+    expect(validateContent(invalid).join('\n')).toContain('격자 좌표');
+  });
 });

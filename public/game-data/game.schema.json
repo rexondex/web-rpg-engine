@@ -636,6 +636,7 @@
       "required": [
         "name",
         "subtitle",
+        "grid",
         "ground",
         "path",
         "spawn",
@@ -656,6 +657,7 @@
         "path": {
           "type": "string"
         },
+        "grid": { "$ref": "#/$defs/point" },
         "backgroundImage": { "type": "string" },
         "backgroundAlpha": { "type": "number", "minimum": 0, "maximum": 1 },
         "music": { "type": "string" },
@@ -693,9 +695,8 @@
               "y",
               "width",
               "height",
+              "direction",
               "to",
-              "spawnX",
-              "spawnY",
               "label"
             ],
             "properties": {
@@ -711,14 +712,9 @@
               "height": {
                 "type": "number"
               },
+              "direction": { "enum": ["north", "east", "south", "west"] },
               "to": {
                 "type": "string"
-              },
-              "spawnX": {
-                "type": "number"
-              },
-              "spawnY": {
-                "type": "number"
               },
               "label": {
                 "type": "string"

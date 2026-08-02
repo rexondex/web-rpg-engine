@@ -10,12 +10,12 @@
     <main id="app">
       <header class="topbar">
         <div><span class="eyebrow">DATA-DRIVEN RPG</span><h1 id="game-title">불러오는 중…</h1></div>
-        <div class="top-actions"><button id="character-menu-button" type="button">캐릭터</button><button id="skill-menu-button" type="button">스킬</button><button id="inventory-menu-button" type="button">가방</button><button id="quest-menu-button" type="button">퀘스트 <span id="quest-count">0</span></button><button id="settings-menu-button" type="button">설정</button><button id="save-menu-button" type="button">저장</button></div>
+        <div class="top-actions"><button id="world-map-button" type="button">월드맵</button><button id="character-menu-button" type="button">캐릭터</button><button id="skill-menu-button" type="button">스킬</button><button id="inventory-menu-button" type="button">가방</button><button id="quest-menu-button" type="button">퀘스트 <span id="quest-count">0</span></button><button id="settings-menu-button" type="button">설정</button><button id="save-menu-button" type="button">저장</button></div>
       </header>
       <section id="game-shell" aria-label="게임 화면">
         <div id="game"></div>
         <div id="hud" aria-live="polite">
-          <div class="hud-card"><span>생명력</span><strong id="hp-text">100 / 100</strong><div class="meter"><i id="hp-bar"></i></div></div>
+          <div class="hud-card player-hud"><div class="player-heading"><strong>여행자</strong><b id="hud-level">Lv. 1</b></div><div class="stat-row"><span>HP</span><strong id="hp-text">100 / 100</strong></div><div class="meter hp-meter"><i id="hp-bar"></i></div><div class="stat-row xp-label"><span>EXP</span><strong id="xp-text">0 / 30</strong></div><div class="meter xp-meter"><i id="xp-bar"></i></div></div>
           <div class="hud-card quest"><span>현재 목표</span><strong id="quest-text">촌장과 대화하세요</strong></div>
           <div class="minimap-wrap"><div><span id="map-name">별빛 마을</span><b>N</b></div><canvas id="minimap" width="150" height="82" aria-label="미니맵"></canvas></div>
           <div class="controls">이동 <b>WASD / 방향키</b> · 상호작용 <b>E</b> · 공격 <b>SPACE</b></div>
@@ -27,7 +27,7 @@
         <div id="mobile-controls" class="mobile-controls"><div class="dpad"><button data-key="up">▲</button><button data-key="left">◀</button><button data-key="down">▼</button><button data-key="right">▶</button></div><div class="mobile-actions"><button data-key="interact">E</button><button data-key="attack">⚔</button></div></div>
         <div id="loading" class="loading"><strong>세계 설정을 불러오는 중</strong><span>game-data/game.json</span></div>
       </section>
-      <p class="autosave-status"><i></i><span id="save-status">자동 저장 준비됨</span></p>
+      <div class="game-meta"><p class="current-location"><span>현재 위치</span><strong id="current-location">별빛 마을</strong><b id="world-coordinate">[0, 0]</b></p><p class="autosave-status"><i></i><span id="save-status">자동 저장 준비됨</span></p></div>
     </main>
     <dialog id="quest-dialog">
       <form method="dialog" class="dialog-head"><div><span class="eyebrow">QUEST JOURNAL</span><h2>모험 일지</h2></div><button aria-label="닫기">×</button></form>
@@ -46,6 +46,7 @@
     <dialog id="shop-dialog"><form method="dialog" class="dialog-head"><div><span class="eyebrow">SHOP</span><h2 id="shop-name">상점</h2></div><button aria-label="닫기">×</button></form><div id="shop-balance"></div><div id="shop-list" class="inventory-list"></div></dialog>
     <dialog id="settings-dialog"><form method="dialog" class="dialog-head"><div><span class="eyebrow">SETTINGS</span><h2>게임 설정</h2></div><button aria-label="닫기">×</button></form><div class="settings-list"><label>음악 음량 <input id="music-volume" type="range" min="0" max="1" step="0.05" /></label><label>효과음 음량 <input id="effects-volume" type="range" min="0" max="1" step="0.05" /></label><label><input id="mute-audio" type="checkbox" /> 모든 소리 끄기</label><button id="content-preview" type="button">JSON 콘텐츠 검사 결과 보기</button></div></dialog>
     <dialog id="preview-dialog"><form method="dialog" class="dialog-head"><div><span class="eyebrow">CONTENT INSPECTOR</span><h2>콘텐츠 검사</h2></div><button aria-label="닫기">×</button></form><div id="content-summary"></div></dialog>
+    <dialog id="world-map-dialog"><form method="dialog" class="dialog-head"><div><span class="eyebrow">WORLD ATLAS</span><h2>전체 지도</h2></div><button aria-label="닫기">×</button></form><p class="world-help">북쪽은 위, 동쪽은 오른쪽입니다. 밝게 표시된 지역이 현재 위치입니다.</p><div id="world-grid" class="world-grid"></div></dialog>
     <div id="ending-screen" class="ending-screen hidden"><span>ENDING</span><h2 id="ending-title"></h2><div id="ending-text"></div><button id="ending-close" type="button">계속하기</button></div>
     <dialog id="save-dialog">
       <form method="dialog" class="dialog-head"><div><span class="eyebrow">SAVE ARCHIVE</span><h2>모험 기록</h2></div><button aria-label="닫기">×</button></form>

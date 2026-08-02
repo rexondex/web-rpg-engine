@@ -25,10 +25,16 @@ button { cursor: pointer; }
 .hud-card { min-width: 170px; padding: 9px 12px; border: 1px solid #a3ad8d66; border-radius: 7px; background: #112327df; backdrop-filter: blur(5px); box-shadow: 0 4px 12px #0004; }
 .hud-card span { display: block; color: #bdc9af; font-size: 10px; letter-spacing: .12em; }
 .hud-card strong { font-size: 13px; }
-.hud-card:first-child { position: absolute; left: 16px; bottom: 16px; min-width: 205px; }
+.hud-card:first-child { position: absolute; left: 16px; bottom: 16px; min-width: 225px; }
+.player-heading, .stat-row { display: flex; align-items: center; justify-content: space-between; }
+.player-heading { margin-bottom: 7px; color: #f2e7c7; }
+.player-heading b { color: #f0ca78; font-size: 12px; }
+.stat-row strong { font-size: 11px; }
+.xp-label { margin-top: 6px; }
 .hud-card.quest { position: absolute; top: 16px; left: 50%; min-width: 290px; text-align: center; transform: translateX(-50%); }
 .meter { height: 4px; margin-top: 6px; overflow: hidden; border-radius: 9px; background: #071112; }
 .meter i { display: block; width: 100%; height: 100%; background: linear-gradient(90deg, #bd5c52, #ed9270); transition: width .2s; }
+.xp-meter i { background: linear-gradient(90deg, #5a92b6, #79c5d3); }
 .controls { position: absolute; left: 50%; bottom: 16px; padding: 8px 11px; color: #d2d8c6; font-size: 11px; border-radius: 6px; background: #102125bb; transform: translateX(-50%); }
 .controls b { color: #ffdb8a; }
 .panel { position: absolute; z-index: 5; left: 7%; right: 7%; bottom: 6%; min-height: 120px; padding: 23px 110px 21px 27px; border: 2px solid #d6c48d; border-radius: 9px; background: linear-gradient(145deg, #162d30f5, #102124fa); box-shadow: 0 8px 40px #0009; }
@@ -48,7 +54,10 @@ button { cursor: pointer; }
 #minimap { display: block; width: 100%; height: auto; border-radius: 3px; }
 #toast { position: absolute; z-index: 8; top: 20%; left: 50%; padding: 10px 17px; opacity: 0; transform: translate(-50%, -8px); color: #1a2927; background: #ffe5a4; border-radius: 5px; box-shadow: 0 5px 20px #0007; transition: .2s; pointer-events: none; }
 #toast.show { opacity: 1; transform: translate(-50%, 0); }
-.autosave-status { margin: 11px 4px 0; color: #829792; font-size: 12px; }
+.game-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 11px 4px 0; }
+.current-location { display: flex; align-items: center; gap: 8px; margin: 0; color: #a9b9ae; font-size: 12px; }
+.current-location span { color: #718980; font-size: 10px; letter-spacing: .1em; }.current-location strong { color: #e8dfc2; }.current-location b { color: #d2b66e; font-family: monospace; }
+.autosave-status { margin: 0; color: #829792; font-size: 12px; }
 .autosave-status i { display: inline-block; width: 7px; height: 7px; margin-right: 7px; border-radius: 50%; background: #7db18a; box-shadow: 0 0 8px #7db18a; }
 dialog { width: min(580px, calc(100% - 28px)); color: #eaf1dd; border: 1px solid #718378; border-radius: 12px; background: #13272a; box-shadow: 0 20px 80px #000b; }
 dialog::backdrop { background: #050b0ccc; backdrop-filter: blur(3px); }
@@ -99,4 +108,5 @@ dialog > p { color: #a9b9ad; font-size: 13px; }
 .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }.summary-grid div { padding: 12px; text-align: center; background: #192f31; border-radius: 6px; }.summary-grid dt { color: #91a49a; font-size: 10px; }.summary-grid dd { margin: 3px 0 0; color: #f0dcaa; font-size: 22px; }#content-summary pre { max-height: 260px; overflow: auto; padding: 12px; color: #b9cabf; background: #0e2022; border-radius: 5px; font-size: 10px; }
 .mobile-controls { display: none; position: absolute; z-index: 7; inset: auto 12px 12px; justify-content: space-between; pointer-events: none; }.mobile-controls button { width: 48px; height: 48px; padding: 0; color: #f4e6be; background: #14292cbb; border: 1px solid #9caa8c99; border-radius: 50%; pointer-events: auto; touch-action: none; user-select: none; }.dpad { display: grid; grid-template-columns: repeat(3, 48px); gap: 3px; }.dpad button:first-child { grid-column: 2; }.dpad button:nth-child(2){grid-column:1}.dpad button:nth-child(3){grid-column:2}.dpad button:nth-child(4){grid-column:3}.mobile-actions { display: flex; gap: 9px; align-items: end; }.mobile-actions button:last-child{width:58px;height:58px;background:#60443cbb}
 .ending-screen { position: fixed; z-index: 100; inset: 0; display: grid; place-content: center; justify-items: center; padding: 30px; color: #f5ebce; text-align: center; background: radial-gradient(circle,#263e40,#081113 72%); }.ending-screen.hidden { display: none; }.ending-screen>span{color:#e4c579;letter-spacing:.4em}.ending-screen h2{font:700 clamp(30px,6vw,64px) 'Nanum Myeongjo',serif}.ending-screen p{color:#b9c9bd}.ending-screen button{margin-top:25px;padding:10px 24px;color:#152725;background:#ead69d;border:0;border-radius:5px}
+.world-help { color: #91a39a; font-size: 12px; }.world-grid { display: grid; gap: 10px; min-width: min(620px, 80vw); margin: 22px 0 8px; padding: 20px; overflow: auto; background: #0d1e20; border: 1px solid #344b47; border-radius: 8px; }.world-cell { display: grid; align-content: center; min-width: 105px; padding: 10px; color: #91a69b; background: #1a3032; border: 1px solid #405854; border-radius: 6px; text-align: center; }.world-cell span { color: #718b81; font: 9px monospace; }.world-cell strong { margin: 3px 0; color: #d4d9c7; font-size: 13px; }.world-cell small { color: #788e85; font-size: 9px; }.world-cell.current { background: #3b4937; border-color: #e1c36f; box-shadow: 0 0 18px #d4b66033; }.world-cell.current span,.world-cell.current strong{color:#f1dc9a}
 @media (max-width: 700px), (pointer: coarse) { #app { padding: 14px 10px; } .topbar { align-items: start; } .top-actions { max-width: 58%; flex-wrap: wrap; justify-content: end; } .controls, .minimap-wrap { display: none; } .mobile-controls { display: flex; } .hud-card { min-width: 125px; } .hud-card:first-child { left: 10px; bottom: 122px; min-width: 145px; } .hud-card.quest { top: 9px; left: auto; right: 9px; min-width: 210px; max-width: 55%; transform: none; } .panel { left: 3%; right: 3%; bottom: 3%; padding: 15px 80px 15px 16px; min-height: 96px; } .panel p { font-size: 14px; } }
