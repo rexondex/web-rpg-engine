@@ -133,8 +133,8 @@
     { "id": "accessory", "label": "장신구" }
   ],
   "skills": {
-    "power_strike": { "name": "강타", "description": "다음 공격을 강하게 내리친다.", "cooldownMs": 2200, "range": 82, "power": 1.8, "target": "enemy" },
-    "first_aid": { "name": "응급 처치", "description": "생명력을 20 회복한다.", "cooldownMs": 5000, "range": 0, "power": 0, "target": "self", "actions": [{ "type": "heal", "amount": 20 }] }
+    "power_strike": { "name": "강타", "description": "즉시 주위를 강하게 베어 공격한다.", "effect": "slash", "effectColor": "#ffb347", "cooldownMs": 2200, "range": 82, "power": 1.8, "target": "enemy" },
+    "first_aid": { "name": "응급 처치", "description": "즉시 생명력을 20 회복한다.", "effect": "ring", "effectColor": "#75e6a4", "cooldownMs": 5000, "range": 0, "power": 0, "target": "self", "actions": [{ "type": "heal", "amount": 20 }] }
   },
   "effects": {
     "regeneration": { "name": "재생", "durationMs": 6000, "tickMs": 1000, "healPerTick": 3 },

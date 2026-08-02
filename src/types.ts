@@ -44,7 +44,7 @@ export interface GameProtocol {
   combat: { attackCooldownMs: number; invulnerabilityMs: number; attackRange: number };
   items: Record<string, { name: string; description: string; icon?: string; type: 'consumable' | 'quest' | 'material' | 'equipment'; slot?: string; modifiers?: Partial<Stats>; maxStack: number; value: number; actions?: Action[] }>;
   equipmentSlots: { id: string; label: string }[];
-  skills: Record<string, { name: string; description: string; icon?: string; cooldownMs: number; range: number; power: number; cost?: number; target: 'enemy' | 'self'; actions?: Action[] }>;
+  skills: Record<string, { name: string; description: string; icon?: string; effect?: 'burst' | 'slash' | 'ring'; effectColor?: string; cooldownMs: number; range: number; power: number; cost?: number; target: 'enemy' | 'self'; actions?: Action[] }>;
   effects: Record<string, { name: string; durationMs: number; tickMs?: number; modifiers?: Partial<Stats>; damagePerTick?: number; healPerTick?: number }>;
   monsters: Record<string, { name: string; texture: string; scale?: number; stats: Stats; speed: number; aggroRange: number; xp: number; boss?: boolean; patterns?: { id: string; hpBelow?: number; cooldownMs: number; type: 'chase' | 'dash' | 'area'; power: number }[]; drops: { itemId: string; chance: number; min: number; max: number }[] }>;
   quests: Record<string, { title: string; giver: string; summary: string; objectives: { id: string; label: string; type: 'kill' | 'talk' | 'visit' | 'collect' | 'custom'; target: number; targetId: string }[]; rewards: { xp?: number; items?: Record<string, number> }; success: string; failure: string }>;

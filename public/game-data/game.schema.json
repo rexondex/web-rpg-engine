@@ -250,7 +250,7 @@
       }
     },
     "equipmentSlots": { "type": "array", "items": { "type": "object", "required": ["id", "label"], "properties": { "id": { "type": "string" }, "label": { "type": "string" } } } },
-    "skills": { "type": "object", "additionalProperties": { "type": "object", "required": ["name", "description", "cooldownMs", "range", "power", "target"], "properties": { "name": { "type": "string" }, "description": { "type": "string" }, "icon": { "type": "string" }, "cooldownMs": { "type": "number", "minimum": 0 }, "range": { "type": "number", "minimum": 0 }, "power": { "type": "number" }, "target": { "enum": ["enemy", "self"] }, "actions": { "$ref": "#/$defs/actions" } } } },
+    "skills": { "type": "object", "additionalProperties": { "type": "object", "required": ["name", "description", "cooldownMs", "range", "power", "target"], "properties": { "name": { "type": "string" }, "description": { "type": "string" }, "icon": { "type": "string" }, "effect": { "enum": ["burst", "slash", "ring"] }, "effectColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }, "cooldownMs": { "type": "number", "minimum": 0 }, "range": { "type": "number", "minimum": 0 }, "power": { "type": "number" }, "target": { "enum": ["enemy", "self"] }, "actions": { "$ref": "#/$defs/actions" } } } },
     "effects": { "type": "object", "additionalProperties": { "type": "object", "required": ["name", "durationMs"], "properties": { "name": { "type": "string" }, "durationMs": { "type": "number", "minimum": 1 }, "tickMs": { "type": "number", "minimum": 1 }, "damagePerTick": { "type": "number" }, "healPerTick": { "type": "number" } } } },
     "monsters": {
       "type": "object",
