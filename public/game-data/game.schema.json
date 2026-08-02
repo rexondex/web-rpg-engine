@@ -661,6 +661,9 @@
         "path": {
           "type": "string"
         },
+        "pathOverlay": {
+          "type": "boolean"
+        },
         "grid": { "$ref": "#/$defs/point" },
         "backgroundImage": { "type": "string" },
         "backgroundAlpha": { "type": "number", "minimum": 0, "maximum": 1 },
