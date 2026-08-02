@@ -10,4 +10,9 @@ describe('게임 데이터 프로토콜', () => {
     invalid.maps.village.exits[0].to = 'missing-map';
     expect(validateContent(invalid)[0]).toContain('missing-map');
   });
+  it('등록하지 않은 캐릭터 에셋 참조를 검출한다', () => {
+    const invalid = structuredClone(gameData) as GameProtocol;
+    invalid.npcs.rowan.texture = 'missing_portrait';
+    expect(validateContent(invalid).join('\n')).toContain('missing_portrait');
+  });
 });

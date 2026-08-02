@@ -31,6 +31,9 @@ button { cursor: pointer; }
 .controls { margin-left: auto; padding: 8px 11px; color: #d2d8c6; font-size: 11px; border-radius: 6px; background: #102125bb; }
 .controls b { color: #ffdb8a; }
 .panel { position: absolute; z-index: 5; left: 7%; right: 7%; bottom: 6%; min-height: 120px; padding: 23px 110px 21px 27px; border: 2px solid #d6c48d; border-radius: 9px; background: linear-gradient(145deg, #162d30f5, #102124fa); box-shadow: 0 8px 40px #0009; }
+.dialogue-portrait { position: absolute; left: 18px; bottom: 0; width: 112px; height: 112px; object-fit: cover; object-position: top; border: 1px solid #bba770; border-bottom: 0; border-radius: 8px 8px 0 0; background: #20393a; }
+.dialogue-portrait.hidden { display: none; }
+.panel:has(.dialogue-portrait:not(.hidden)) .dialogue-copy { margin-left: 120px; }
 .panel.hidden { display: none; }
 .panel span { color: #f2c97d; font-family: 'Nanum Myeongjo', serif; }
 .panel p { margin: 10px 0 0; font-size: 17px; }

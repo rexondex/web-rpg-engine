@@ -23,6 +23,7 @@ export interface DialogueNode {
   id: string;
   speaker: string;
   text: string[];
+  portrait?: string;
   conditions?: Condition[];
   choices?: { text: string; next?: string; actions?: Action[]; conditions?: Condition[] }[];
   next?: string;
@@ -30,16 +31,21 @@ export interface DialogueNode {
 }
 
 export interface GameProtocol {
-  protocolVersion: 1;
+  protocolVersion: 2;
   game: { id: string; title: string; subtitle: string; version: string; autosaveSeconds: number };
-  player: { name: string; startMap: string; startX: number; startY: number; baseStats: Stats; levelGrowth: Partial<Stats>; xpCurve: number[]; startingItems: Record<string, number> };
+  assets: {
+    images: Record<string, { src: string }>;
+    spritesheets: Record<string, { src: string; frameWidth: number; frameHeight: number }>;
+    audio: Record<string, { src: string[]; volume?: number; loop?: boolean }>;
+  };
+  player: { name: string; texture: string; portrait?: string; scale?: number; startMap: string; startX: number; startY: number; baseStats: Stats; levelGrowth: Partial<Stats>; xpCurve: number[]; startingItems: Record<string, number> };
   combat: { attackCooldownMs: number; invulnerabilityMs: number; attackRange: number };
   items: Record<string, { name: string; description: string; type: 'consumable' | 'quest' | 'material'; maxStack: number; value: number; actions?: Action[] }>;
-  monsters: Record<string, { name: string; texture: 'slime' | 'wolf'; stats: Stats; speed: number; aggroRange: number; xp: number; drops: { itemId: string; chance: number; min: number; max: number }[] }>;
+  monsters: Record<string, { name: string; texture: string; scale?: number; stats: Stats; speed: number; aggroRange: number; xp: number; drops: { itemId: string; chance: number; min: number; max: number }[] }>;
   quests: Record<string, { title: string; giver: string; summary: string; objectives: { id: string; label: string; type: 'kill' | 'talk' | 'visit' | 'collect' | 'custom'; target: number; targetId: string }[]; rewards: { xp?: number; items?: Record<string, number> }; success: string; failure: string }>;
-  npcs: Record<string, { name: string; color: string; dialogue: string }>;
+  npcs: Record<string, { name: string; texture: string; portrait?: string; scale?: number; color?: string; dialogue: string }>;
   dialogues: Record<string, DialogueNode[]>;
-  maps: Record<string, { name: string; subtitle: string; ground: string; path: string; spawn: { x: number; y: number }; npcs: { npcId: string; x: number; y: number }[]; exits: { x: number; y: number; width: number; height: number; to: string; spawnX: number; spawnY: number; label: string }[]; spawns: { id: string; monsterId: string; x: number; y: number; width: number; height: number; max: number; respawnMs: number }[] }>;
+  maps: Record<string, { name: string; subtitle: string; ground: string; path: string; backgroundImage?: string; backgroundAlpha?: number; music?: string; spawn: { x: number; y: number }; npcs: { npcId: string; x: number; y: number }[]; exits: { x: number; y: number; width: number; height: number; to: string; spawnX: number; spawnY: number; label: string }[]; spawns: { id: string; monsterId: string; x: number; y: number; width: number; height: number; max: number; respawnMs: number }[] }>;
 }
 
 export interface Stats { maxHp: number; attack: number; defense: number }
