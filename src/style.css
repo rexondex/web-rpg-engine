@@ -21,14 +21,15 @@ button { cursor: pointer; }
 .loading.error strong { color: #ec9589; }
 #game { width: 100%; aspect-ratio: 16 / 9; }
 #game canvas { display: block; }
-#hud { position: absolute; inset: 14px 14px auto; pointer-events: none; display: flex; gap: 8px; align-items: start; }
+#hud { position: absolute; z-index: 4; inset: 0; pointer-events: none; }
 .hud-card { min-width: 170px; padding: 9px 12px; border: 1px solid #a3ad8d66; border-radius: 7px; background: #112327df; backdrop-filter: blur(5px); box-shadow: 0 4px 12px #0004; }
 .hud-card span { display: block; color: #bdc9af; font-size: 10px; letter-spacing: .12em; }
 .hud-card strong { font-size: 13px; }
-.hud-card.quest { min-width: 250px; }
+.hud-card:first-child { position: absolute; left: 16px; bottom: 16px; min-width: 205px; }
+.hud-card.quest { position: absolute; top: 16px; left: 50%; min-width: 290px; text-align: center; transform: translateX(-50%); }
 .meter { height: 4px; margin-top: 6px; overflow: hidden; border-radius: 9px; background: #071112; }
 .meter i { display: block; width: 100%; height: 100%; background: linear-gradient(90deg, #bd5c52, #ed9270); transition: width .2s; }
-.controls { margin-left: auto; padding: 8px 11px; color: #d2d8c6; font-size: 11px; border-radius: 6px; background: #102125bb; }
+.controls { position: absolute; left: 50%; bottom: 16px; padding: 8px 11px; color: #d2d8c6; font-size: 11px; border-radius: 6px; background: #102125bb; transform: translateX(-50%); }
 .controls b { color: #ffdb8a; }
 .panel { position: absolute; z-index: 5; left: 7%; right: 7%; bottom: 6%; min-height: 120px; padding: 23px 110px 21px 27px; border: 2px solid #d6c48d; border-radius: 9px; background: linear-gradient(145deg, #162d30f5, #102124fa); box-shadow: 0 8px 40px #0009; }
 .dialogue-portrait { position: absolute; left: 18px; bottom: 0; width: 112px; height: 112px; object-fit: cover; object-position: top; border: 1px solid #bba770; border-bottom: 0; border-radius: 8px 8px 0 0; background: #20393a; }
@@ -41,7 +42,7 @@ button { cursor: pointer; }
 .panel button.hidden, .dialogue-choices.hidden { display: none; }
 .dialogue-choices { display: flex; gap: 7px; margin-top: 12px; }
 .dialogue-choices button { position: static; color: #f6e7bd; background: #294647; border: 1px solid #a68d5e; }
-.minimap-wrap { width: 150px; padding: 6px; border: 1px solid #a3ad8d66; border-radius: 7px; background: #112327df; }
+.minimap-wrap { position: absolute; top: 16px; right: 16px; width: 150px; padding: 6px; border: 1px solid #a3ad8d66; border-radius: 7px; background: #112327df; box-shadow: 0 4px 14px #0005; }
 .minimap-wrap > div { display: flex; justify-content: space-between; padding: 0 2px 4px; color: #d8dfc9; font-size: 10px; }
 .minimap-wrap b { color: #e6bf77; }
 #minimap { display: block; width: 100%; height: auto; border-radius: 3px; }
@@ -98,4 +99,4 @@ dialog > p { color: #a9b9ad; font-size: 13px; }
 .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }.summary-grid div { padding: 12px; text-align: center; background: #192f31; border-radius: 6px; }.summary-grid dt { color: #91a49a; font-size: 10px; }.summary-grid dd { margin: 3px 0 0; color: #f0dcaa; font-size: 22px; }#content-summary pre { max-height: 260px; overflow: auto; padding: 12px; color: #b9cabf; background: #0e2022; border-radius: 5px; font-size: 10px; }
 .mobile-controls { display: none; position: absolute; z-index: 7; inset: auto 12px 12px; justify-content: space-between; pointer-events: none; }.mobile-controls button { width: 48px; height: 48px; padding: 0; color: #f4e6be; background: #14292cbb; border: 1px solid #9caa8c99; border-radius: 50%; pointer-events: auto; touch-action: none; user-select: none; }.dpad { display: grid; grid-template-columns: repeat(3, 48px); gap: 3px; }.dpad button:first-child { grid-column: 2; }.dpad button:nth-child(2){grid-column:1}.dpad button:nth-child(3){grid-column:2}.dpad button:nth-child(4){grid-column:3}.mobile-actions { display: flex; gap: 9px; align-items: end; }.mobile-actions button:last-child{width:58px;height:58px;background:#60443cbb}
 .ending-screen { position: fixed; z-index: 100; inset: 0; display: grid; place-content: center; justify-items: center; padding: 30px; color: #f5ebce; text-align: center; background: radial-gradient(circle,#263e40,#081113 72%); }.ending-screen.hidden { display: none; }.ending-screen>span{color:#e4c579;letter-spacing:.4em}.ending-screen h2{font:700 clamp(30px,6vw,64px) 'Nanum Myeongjo',serif}.ending-screen p{color:#b9c9bd}.ending-screen button{margin-top:25px;padding:10px 24px;color:#152725;background:#ead69d;border:0;border-radius:5px}
-@media (max-width: 700px), (pointer: coarse) { #app { padding: 14px 10px; } .controls, .minimap-wrap { display: none; } .mobile-controls { display: flex; } .hud-card { min-width: 125px; } .hud-card.quest { min-width: 0; flex: 1; } .panel { left: 3%; right: 3%; bottom: 3%; padding: 15px 80px 15px 16px; min-height: 96px; } .panel p { font-size: 14px; } }
+@media (max-width: 700px), (pointer: coarse) { #app { padding: 14px 10px; } .topbar { align-items: start; } .top-actions { max-width: 58%; flex-wrap: wrap; justify-content: end; } .controls, .minimap-wrap { display: none; } .mobile-controls { display: flex; } .hud-card { min-width: 125px; } .hud-card:first-child { left: 10px; bottom: 122px; min-width: 145px; } .hud-card.quest { top: 9px; left: auto; right: 9px; min-width: 210px; max-width: 55%; transform: none; } .panel { left: 3%; right: 3%; bottom: 3%; padding: 15px 80px 15px 16px; min-height: 96px; } .panel p { font-size: 14px; } }
