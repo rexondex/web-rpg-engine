@@ -9,8 +9,8 @@
   <body>
     <main id="app">
       <header class="topbar">
-        <div><span class="eyebrow">SSG ADVENTURE</span><h1>별빛 골짜기</h1></div>
-        <div class="top-actions"><button id="quest-menu-button" type="button">퀘스트 <span id="quest-count">0</span></button><button id="save-menu-button" type="button">저장 관리</button></div>
+        <div><span class="eyebrow">DATA-DRIVEN RPG</span><h1 id="game-title">불러오는 중…</h1></div>
+        <div class="top-actions"><button id="character-menu-button" type="button">캐릭터</button><button id="inventory-menu-button" type="button">가방</button><button id="quest-menu-button" type="button">퀘스트 <span id="quest-count">0</span></button><button id="save-menu-button" type="button">저장</button></div>
       </header>
       <section id="game-shell" aria-label="게임 화면">
         <div id="game"></div>
@@ -24,6 +24,7 @@
           <span id="speaker"></span><p id="dialogue-text"></p><div id="dialogue-choices" class="dialogue-choices hidden"></div><button id="dialogue-next" type="button">계속</button>
         </div>
         <div id="toast" aria-live="assertive"></div>
+        <div id="loading" class="loading"><strong>세계 설정을 불러오는 중</strong><span>game-data/game.json</span></div>
       </section>
       <p class="autosave-status"><i></i><span id="save-status">자동 저장 준비됨</span></p>
     </main>
@@ -31,6 +32,14 @@
       <form method="dialog" class="dialog-head"><div><span class="eyebrow">QUEST JOURNAL</span><h2>모험 일지</h2></div><button aria-label="닫기">×</button></form>
       <div class="quest-tabs"><button type="button" data-filter="all" class="active">전체</button><button type="button" data-filter="active">진행</button><button type="button" data-filter="completed">완료</button></div>
       <div id="quest-list" class="quest-list"></div>
+    </dialog>
+    <dialog id="inventory-dialog">
+      <form method="dialog" class="dialog-head"><div><span class="eyebrow">INVENTORY</span><h2>가방</h2></div><button aria-label="닫기">×</button></form>
+      <div id="inventory-list" class="inventory-list"></div>
+    </dialog>
+    <dialog id="character-dialog">
+      <form method="dialog" class="dialog-head"><div><span class="eyebrow">CHARACTER</span><h2 id="character-name">여행자</h2></div><button aria-label="닫기">×</button></form>
+      <div id="character-sheet" class="character-sheet"></div>
     </dialog>
     <dialog id="save-dialog">
       <form method="dialog" class="dialog-head"><div><span class="eyebrow">SAVE ARCHIVE</span><h2>모험 기록</h2></div><button aria-label="닫기">×</button></form>

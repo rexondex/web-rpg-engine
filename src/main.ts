@@ -1,90 +1,21 @@
 import Phaser from 'phaser';
 import './style.css';
-import { GameScene } from './game/GameScene';
+import { ContentError, loadGameContent } from './game/ContentLoader';
+import { GameScene, type GameViewState, type MinimapState } from './game/GameScene';
+import { statusLabel } from './game/content';
 import { SaveManager } from './save/SaveManager';
-import type { SaveData } from './types';
-import { questDefinitions, statusLabel, type QuestId } from './game/content';
-import type { MinimapState } from './game/GameScene';
+import type { GameProtocol, SaveData } from './types';
 
-const $ = <T extends HTMLElement>(selector: string) => document.querySelector<T>(selector)!;
-const saveDialog = $('#save-dialog') as HTMLDialogElement;
-let currentSave: SaveData | null = SaveManager.load('auto');
-let gameScene: GameScene;
+const $=<T extends HTMLElement>(selector:string)=>document.querySelector<T>(selector)!;let config:GameProtocol;let currentSave:SaveData;let gameScene:GameScene;let questFilter='all';
+function toast(message:string):void{const el=$('#toast');el.textContent=message;el.classList.add('show');window.setTimeout(()=>el.classList.remove('show'),1900);}
+function dialogue(speaker:string,lines:string[],choices:string[]|undefined,done:(choice?:number)=>void):void{const panel=$('#dialogue'),button=$('#dialogue-next'),box=$('#dialogue-choices');let index=0;$('#speaker').textContent=speaker;$('#dialogue-text').textContent=lines[0];panel.classList.remove('hidden');box.innerHTML='';box.classList.add('hidden');button.classList.remove('hidden');const advance=()=>{index++;if(index<lines.length){$('#dialogue-text').textContent=lines[index];return;}if(choices?.length){button.classList.add('hidden');box.classList.remove('hidden');box.innerHTML=choices.map((x,i)=>`<button type="button" data-choice="${i}">${x}</button>`).join('');return;}close();done();};const close=()=>{panel.classList.add('hidden');button.removeEventListener('click',advance);};button.addEventListener('click',advance);box.onclick=e=>{const selected=(e.target as HTMLElement).closest<HTMLButtonElement>('[data-choice]');if(!selected)return;close();done(Number(selected.dataset.choice));};}
 
-function showToast(message: string): void {
-  const toast = $('#toast'); toast.textContent = message; toast.classList.add('show');
-  window.setTimeout(() => toast.classList.remove('show'), 1800);
-}
-
-function save(data: SaveData): void {
-  currentSave = data; SaveManager.save('auto', data);
-  $('#save-status').textContent = `자동 저장됨 · ${new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}`;
-  renderSlots();
-}
-
-function dialogue(speaker: string, lines: string[], choices: string[] | undefined, done: (choice?: number) => void): void {
-  const panel = $('#dialogue'); let index = 0;
-  $('#speaker').textContent = speaker; $('#dialogue-text').textContent = lines[index]; panel.classList.remove('hidden');
-  const button = $('#dialogue-next'); const choicesBox = $('#dialogue-choices'); choicesBox.innerHTML = ''; choicesBox.classList.add('hidden'); button.classList.remove('hidden');
-  const advance = (): void => {
-    index += 1;
-    if (index < lines.length) $('#dialogue-text').textContent = lines[index];
-    else if (choices?.length) { button.classList.add('hidden'); choicesBox.classList.remove('hidden'); choicesBox.innerHTML = choices.map((choice, i) => `<button type="button" data-choice="${i}">${choice}</button>`).join(''); }
-    else { panel.classList.add('hidden'); button.removeEventListener('click', advance); done(); }
-  };
-  button.addEventListener('click', advance);
-  choicesBox.onclick = (event) => { const selected = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-choice]'); if (!selected) return; panel.classList.add('hidden'); button.removeEventListener('click', advance); done(Number(selected.dataset.choice)); };
-}
-
-gameScene = new GameScene(currentSave, save);
-const game = new Phaser.Game({ type: Phaser.AUTO, parent: 'game', width: 960, height: 540, backgroundColor: '#172a32', physics: { default: 'arcade', arcade: { debug: false } }, scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH }, scene: gameScene });
-game.registry.set('dialogue', dialogue);
-
-gameScene.events.on('state', ({ hp, maxHp, objective, mapName, quests, minimap }: { hp: number; maxHp: number; objective: string; mapName: string; quests: SaveData['world']['quests']; minimap: MinimapState }) => {
-  $('#hp-text').textContent = `${hp} / ${maxHp}`; $('#hp-bar').style.width = `${(hp / maxHp) * 100}%`; $('#quest-text').textContent = objective; $('#map-name').textContent = mapName;
-  $('#quest-count').textContent = String(Object.values(quests).filter((q) => q.status === 'active' || q.status === 'ready').length);
-  drawMinimap(minimap); renderQuests(quests);
-});
-gameScene.events.on('toast', showToast);
-
-function renderSlots(): void {
-  $('#slots').innerHTML = SaveManager.slots.map((slot) => {
-    const data = SaveManager.load(slot); const title = slot === 'auto' ? '자동 저장' : `슬롯 ${slot}`;
-    const detail = data ? `${new Date(data.savedAt).toLocaleString('ko-KR')} · ${Math.floor(data.playTime / 60)}분` : '비어 있음';
-    return `<article><div><strong>${title}</strong><span>${detail}</span></div><button data-save="${slot}" ${slot === 'auto' ? 'disabled' : ''}>저장</button><button data-load="${slot}" ${data ? '' : 'disabled'}>불러오기</button></article>`;
-  }).join('');
-}
-
-$('#save-menu-button').addEventListener('click', () => { renderSlots(); saveDialog.showModal(); });
-const questDialog = $('#quest-dialog') as HTMLDialogElement;
-let questFilter = 'all';
-$('#quest-menu-button').addEventListener('click', () => { if (currentSave) renderQuests(currentSave.world.quests); questDialog.showModal(); });
-$('.quest-tabs').addEventListener('click', (event) => { const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]'); if (!button) return; questFilter = button.dataset.filter!; document.querySelectorAll('.quest-tabs button').forEach((item) => item.classList.toggle('active', item === button)); if (currentSave) renderQuests(currentSave.world.quests); });
-$('#slots').addEventListener('click', (event) => {
-  const button = (event.target as HTMLElement).closest<HTMLButtonElement>('button'); if (!button) return;
-  const saveSlot = button.dataset.save; const loadSlot = button.dataset.load;
-  if (saveSlot) { SaveManager.save(saveSlot, gameScene.snapshot()); showToast(`슬롯 ${saveSlot}에 저장했습니다.`); renderSlots(); }
-  if (loadSlot) { const data = SaveManager.load(loadSlot); if (data) { gameScene.restore(data); save(data); saveDialog.close(); showToast('모험을 불러왔습니다.'); } }
-});
-$('#export-save').addEventListener('click', () => SaveManager.export(gameScene.snapshot()));
-$('#import-save').addEventListener('change', async (event) => {
-  const file = (event.target as HTMLInputElement).files?.[0]; if (!file) return;
-  try { const data = SaveManager.parse(await file.text()); gameScene.restore(data); save(data); saveDialog.close(); showToast('저장 파일을 복원했습니다.'); }
-  catch (error) { showToast(error instanceof Error ? error.message : '파일을 읽지 못했습니다.'); }
-});
-
-function renderQuests(quests: SaveData['world']['quests']): void {
-  const entries = Object.entries(quests).filter(([, quest]) => questFilter === 'all' || (questFilter === 'active' ? ['active', 'ready', 'available'].includes(quest.status) : quest.status === questFilter));
-  $('#quest-list').innerHTML = entries.map(([id, quest]) => {
-    const definition = questDefinitions[id as QuestId]; if (!definition) return '';
-    const objectives = definition.objectives.map((objective) => { const value = quest.objectives[objective.id] ?? 0; return `<li class="${value >= objective.target ? 'done' : ''}"><i></i>${objective.label}<span>${value}/${objective.target}</span></li>`; }).join('');
-    return `<article class="quest-entry ${quest.status}"><header><div><span>${definition.giver}</span><h3>${definition.title}</h3></div><b>${statusLabel(quest.status)}</b></header><p>${definition.summary}</p><ul>${objectives}</ul><footer><span>성공 · ${definition.success}</span><span>실패 · ${definition.failure}</span></footer></article>`;
-  }).join('') || '<p class="empty">표시할 퀘스트가 없습니다.</p>';
-}
-
-function drawMinimap(state: MinimapState): void {
-  const canvas = $('#minimap') as HTMLCanvasElement; const ctx = canvas.getContext('2d')!; const sx = canvas.width / 960; const sy = canvas.height / 540;
-  ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = '#183133'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.strokeStyle = '#738a76'; ctx.strokeRect(.5, .5, canvas.width - 1, canvas.height - 1);
-  const dot = (x: number, y: number, color: string, radius: number) => { ctx.beginPath(); ctx.fillStyle = color; ctx.arc(x * sx, y * sy, radius, 0, Math.PI * 2); ctx.fill(); };
-  state.exits.forEach(({ x, y }) => dot(x, y, '#f5d87d', 4)); state.npcs.forEach(({ x, y }) => dot(x, y, '#8ec5e8', 3)); state.enemies.forEach(({ x, y }) => dot(x, y, '#df786c', 2)); dot(state.player.x, state.player.y, '#fff8d7', 3.5);
-}
+async function boot():Promise<void>{try{config=await loadGameContent();SaveManager.configure(config);currentSave=SaveManager.load('auto')??null!;gameScene=new GameScene(config,currentSave,save);const game=new Phaser.Game({type:Phaser.AUTO,parent:'game',width:960,height:540,backgroundColor:'#172a32',physics:{default:'arcade',arcade:{debug:false}},scale:{mode:Phaser.Scale.FIT,autoCenter:Phaser.Scale.CENTER_BOTH},scene:gameScene});game.registry.set('dialogue',dialogue);gameScene.events.on('state',(state:GameViewState)=>renderState(state));gameScene.events.on('toast',toast);$('#game-title').textContent=config.game.title;$('#character-name').textContent=config.player.name;$('#loading').classList.add('hidden');bindUi();}catch(error){const issues=error instanceof ContentError?error.issues:[error instanceof Error?error.message:String(error)];$('#loading').classList.add('error');$('#loading').innerHTML=`<strong>게임 설정을 시작할 수 없습니다</strong><span>${issues.map(x=>`• ${x}`).join('<br>')}</span>`;}}
+function save(data:SaveData):void{currentSave=data;SaveManager.save('auto',data);$('#save-status').textContent=`자동 저장됨 · ${new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`;renderSlots();}
+function renderState(s:GameViewState):void{$('#hp-text').textContent=`${s.hp} / ${s.maxHp}`;$('#hp-bar').style.width=`${s.hp/s.maxHp*100}%`;$('#quest-text').textContent=s.objective;$('#map-name').textContent=s.mapName;$('#quest-count').textContent=String(Object.values(s.quests).filter(q=>q.status==='active'||q.status==='ready').length);drawMinimap(s.minimap);renderQuests(s.quests);renderInventory(s.inventory);$('#character-sheet').innerHTML=`<div class="level-orb">${s.level}<span>LEVEL</span></div><dl><div><dt>생명력</dt><dd>${s.hp} / ${s.maxHp}</dd></div><div><dt>공격력</dt><dd>${s.attack}</dd></div><div><dt>방어력</dt><dd>${s.defense}</dd></div><div><dt>경험치</dt><dd>${s.xp} / ${s.nextXp}</dd></div></dl>`;}
+function renderQuests(quests:SaveData['world']['quests']):void{const entries=Object.entries(quests).filter(([,q])=>questFilter==='all'||(questFilter==='active'?['active','ready','available'].includes(q.status):q.status===questFilter));$('#quest-list').innerHTML=entries.map(([id,q])=>{const d=config.quests[id];if(!d)return'';return`<article class="quest-entry ${q.status}"><header><div><span>${d.giver}</span><h3>${d.title}</h3></div><b>${statusLabel(q.status)}</b></header><p>${d.summary}</p><ul>${d.objectives.map(o=>{const n=q.objectives[o.id]??0;return`<li class="${n>=o.target?'done':''}"><i></i>${o.label}<span>${n}/${o.target}</span></li>`;}).join('')}</ul><footer><span>성공 · ${d.success}</span><span>실패 · ${d.failure}</span><span>보상 · 경험치 ${d.rewards.xp??0}${Object.entries(d.rewards.items??{}).map(([item,n])=>` · ${config.items[item]?.name} ×${n}`).join('')}</span></footer></article>`;}).join('')||'<p class="empty">표시할 퀘스트가 없습니다.</p>';}
+function renderInventory(items:Record<string,number>):void{const entries=Object.entries(items).filter(([,n])=>n>0);$('#inventory-list').innerHTML=entries.map(([id,n])=>{const item=config.items[id];return`<article><div class="item-icon">${item.type==='consumable'?'✦':item.type==='quest'?'◆':'●'}</div><div><strong>${item.name}</strong><span>${item.description}</span></div><b>×${n}</b>${item.type==='consumable'?`<button type="button" data-use="${id}">사용</button>`:''}</article>`;}).join('')||'<p class="empty">가방이 비어 있습니다.</p>';}
+function renderSlots():void{if(!config)return;$('#slots').innerHTML=SaveManager.slots.map(slot=>{const data=SaveManager.load(slot),title=slot==='auto'?'자동 저장':`슬롯 ${slot}`,detail=data?`${new Date(data.savedAt).toLocaleString('ko-KR')} · Lv.${data.player.level} · ${Math.floor(data.playTime/60)}분`:'비어 있음';return`<article><div><strong>${title}</strong><span>${detail}</span></div><button data-save="${slot}" ${slot==='auto'?'disabled':''}>저장</button><button data-load="${slot}" ${data?'':'disabled'}>불러오기</button></article>`;}).join('');}
+function bindUi():void{const saveDialog=$('#save-dialog') as HTMLDialogElement,questDialog=$('#quest-dialog') as HTMLDialogElement,inventoryDialog=$('#inventory-dialog') as HTMLDialogElement,characterDialog=$('#character-dialog') as HTMLDialogElement;$('#save-menu-button').onclick=()=>{renderSlots();saveDialog.showModal();};$('#quest-menu-button').onclick=()=>{renderQuests(currentSave?.world.quests??{});questDialog.showModal();};$('#inventory-menu-button').onclick=()=>inventoryDialog.showModal();$('#character-menu-button').onclick=()=>characterDialog.showModal();$('.quest-tabs').onclick=e=>{const b=(e.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');if(!b)return;questFilter=b.dataset.filter!;document.querySelectorAll('.quest-tabs button').forEach(x=>x.classList.toggle('active',x===b));renderQuests(currentSave.world.quests);};$('#inventory-list').onclick=e=>{const b=(e.target as HTMLElement).closest<HTMLButtonElement>('[data-use]');if(b)gameScene.useItem(b.dataset.use!);};$('#slots').onclick=e=>{const b=(e.target as HTMLElement).closest<HTMLButtonElement>('button');if(!b)return;if(b.dataset.save){SaveManager.save(b.dataset.save,gameScene.snapshot());toast(`슬롯 ${b.dataset.save}에 저장했습니다.`);renderSlots();}if(b.dataset.load){const data=SaveManager.load(b.dataset.load);if(data){gameScene.restore(data);save(data);saveDialog.close();toast('모험을 불러왔습니다.');}}};$('#export-save').onclick=()=>SaveManager.export(gameScene.snapshot());$('#import-save').onchange=async e=>{const file=(e.target as HTMLInputElement).files?.[0];if(!file)return;try{const data=SaveManager.parse(await file.text());gameScene.restore(data);save(data);saveDialog.close();toast('저장 파일을 복원했습니다.');}catch(error){toast(error instanceof Error?error.message:'파일을 읽지 못했습니다.');}};}
+function drawMinimap(s:MinimapState):void{const canvas=$('#minimap') as HTMLCanvasElement,ctx=canvas.getContext('2d')!,sx=canvas.width/960,sy=canvas.height/540;ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#183133';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.strokeStyle='#738a76';ctx.strokeRect(.5,.5,canvas.width-1,canvas.height-1);const dot=(p:Point,color:string,r:number)=>{ctx.beginPath();ctx.fillStyle=color;ctx.arc(p.x*sx,p.y*sy,r,0,Math.PI*2);ctx.fill();};s.exits.forEach(p=>dot(p,'#f5d87d',4));s.npcs.forEach(p=>dot(p,'#8ec5e8',3));s.enemies.forEach(p=>dot(p,'#df786c',2));dot(s.player,'#fff8d7',3.5);}
+type Point={x:number;y:number};void boot();

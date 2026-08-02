@@ -1,0 +1,54 @@
+{
+  "$schema": "./game.schema.json",
+  "protocolVersion": 1,
+  "game": { "id": "starlight-valley", "title": "별빛 골짜기", "subtitle": "정적 웹 RPG", "version": "1.0.0", "autosaveSeconds": 3 },
+  "player": {
+    "name": "여행자", "startMap": "village", "startX": 330, "startY": 300,
+    "baseStats": { "maxHp": 100, "attack": 12, "defense": 3 },
+    "levelGrowth": { "maxHp": 12, "attack": 3, "defense": 1 },
+    "xpCurve": [0, 30, 80, 150, 250, 400],
+    "startingItems": { "potion": 2 }
+  },
+  "combat": { "attackCooldownMs": 420, "invulnerabilityMs": 850, "attackRange": 70 },
+  "items": {
+    "potion": { "name": "작은 회복약", "description": "생명력을 35 회복한다.", "type": "consumable", "maxStack": 10, "value": 15, "actions": [{ "type": "heal", "amount": 35 }] },
+    "slime_gel": { "name": "슬라임 젤", "description": "연금술 재료로 쓰이는 투명한 젤.", "type": "material", "maxStack": 99, "value": 4 },
+    "miras_letter": { "name": "미라의 편지", "description": "카엘에게 전할 짧은 편지.", "type": "quest", "maxStack": 1, "value": 0 }
+  },
+  "monsters": {
+    "green_slime": { "name": "초록 슬라임", "texture": "slime", "stats": { "maxHp": 18, "attack": 8, "defense": 1 }, "speed": 58, "aggroRange": 210, "xp": 12, "drops": [{ "itemId": "slime_gel", "chance": 0.7, "min": 1, "max": 2 }] },
+    "mist_wolf": { "name": "안개 늑대", "texture": "wolf", "stats": { "maxHp": 34, "attack": 14, "defense": 3 }, "speed": 85, "aggroRange": 250, "xp": 25, "drops": [] }
+  },
+  "quests": {
+    "slime_cleanup": { "title": "초록길의 방해꾼", "giver": "촌장 로웬", "summary": "햇살 들판의 슬라임을 정리하자.", "objectives": [{ "id": "slimes", "label": "초록 슬라임 처치", "type": "kill", "target": 3, "targetId": "green_slime" }], "rewards": { "xp": 40, "items": { "potion": 2 } }, "success": "슬라임 3마리를 처치하고 로웬에게 보고", "failure": "실패 조건 없음" },
+    "forest_message": { "title": "숲으로 가는 편지", "giver": "약초꾼 미라", "summary": "안개 숲의 카엘에게 미라의 안부를 전하자.", "objectives": [{ "id": "reach", "label": "안개 숲 도착", "type": "visit", "target": 1, "targetId": "forest" }, { "id": "kael", "label": "카엘과 대화", "type": "talk", "target": 1, "targetId": "kael" }], "rewards": { "xp": 30 }, "success": "안개 숲에 도착해 카엘과 대화", "failure": "편지를 잃으면 실패" }
+  },
+  "npcs": {
+    "rowan": { "name": "촌장 로웬", "color": "#d6a85f", "dialogue": "rowan" },
+    "lina": { "name": "잡화상 리나", "color": "#c98276", "dialogue": "lina" },
+    "mira": { "name": "약초꾼 미라", "color": "#9c78b5", "dialogue": "mira" },
+    "kael": { "name": "경비대원 카엘", "color": "#6f91ad", "dialogue": "kael" }
+  },
+  "dialogues": {
+    "rowan": [
+      { "id": "turnin", "speaker": "촌장 로웬", "conditions": [{ "type": "questStatus", "id": "slime_cleanup", "value": "ready" }], "text": ["들판이 잠잠해졌군. 훌륭하게 해냈네!"], "actions": [{ "type": "completeQuest", "id": "slime_cleanup" }] },
+      { "id": "offer", "speaker": "촌장 로웬", "conditions": [{ "type": "questStatus", "id": "slime_cleanup", "value": "available" }], "text": ["햇살 들판에 슬라임 무리가 나타났네.", "세 마리를 처치해 길을 안전하게 만들어 주겠나?"], "choices": [{ "text": "퀘스트를 수락한다", "actions": [{ "type": "startQuest", "id": "slime_cleanup" }] }, { "text": "다음에 이야기한다" }] },
+      { "id": "active", "speaker": "촌장 로웬", "conditions": [{ "type": "questStatus", "id": "slime_cleanup", "value": "active" }], "text": ["동쪽 햇살 들판에서 슬라임을 찾을 수 있네."] },
+      { "id": "done", "speaker": "촌장 로웬", "text": ["자네 덕분에 길이 다시 평화로워졌네."] }
+    ],
+    "lina": [{ "id": "hello", "speaker": "잡화상 리나", "text": ["회복약은 인벤토리에서 사용할 수 있어요.", "모험 전에 준비를 잊지 마세요!"] }],
+    "mira": [
+      { "id": "offer", "speaker": "약초꾼 미라", "conditions": [{ "type": "questStatus", "id": "forest_message", "value": "available" }], "text": ["안개 숲의 카엘에게 제 안부를 전해주시겠어요?"], "choices": [{ "text": "편지를 맡는다", "actions": [{ "type": "startQuest", "id": "forest_message" }, { "type": "giveItem", "id": "miras_letter", "amount": 1 }] }, { "text": "거절한다" }] },
+      { "id": "default", "speaker": "약초꾼 미라", "text": ["동쪽 끝으로 가면 안개 숲으로 이어져요."] }
+    ],
+    "kael": [
+      { "id": "delivery", "speaker": "경비대원 카엘", "conditions": [{ "type": "questStatus", "id": "forest_message", "value": "active" }, { "type": "hasItem", "id": "miras_letter", "value": 1, "operator": "gte" }], "text": ["미라의 편지군요. 걱정하지 말라고 전해 주세요."], "actions": [{ "type": "objective", "id": "forest_message", "objectiveId": "kael", "amount": 1 }, { "type": "takeItem", "id": "miras_letter", "amount": 1 }, { "type": "completeQuest", "id": "forest_message" }] },
+      { "id": "warning", "speaker": "경비대원 카엘", "text": ["숲 안쪽에는 늑대가 있습니다. 길에서 벗어나지 마세요."] }
+    ]
+  },
+  "maps": {
+    "village": { "name": "별빛 마을", "subtitle": "모험이 시작되는 안식처", "ground": "#4f7c68", "path": "#c9ad78", "spawn": { "x": 330, "y": 300 }, "npcs": [{ "npcId": "rowan", "x": 190, "y": 215 }, { "npcId": "lina", "x": 470, "y": 350 }], "exits": [{ "x": 930, "y": 270, "width": 35, "height": 150, "to": "meadow", "spawnX": 55, "spawnY": 270, "label": "햇살 들판" }], "spawns": [] },
+    "meadow": { "name": "햇살 들판", "subtitle": "슬라임이 모여드는 초원", "ground": "#547f4a", "path": "#bda56d", "spawn": { "x": 55, "y": 270 }, "npcs": [{ "npcId": "mira", "x": 470, "y": 165 }], "exits": [{ "x": 15, "y": 270, "width": 30, "height": 150, "to": "village", "spawnX": 885, "spawnY": 270, "label": "별빛 마을" }, { "x": 945, "y": 270, "width": 30, "height": 150, "to": "forest", "spawnX": 55, "spawnY": 270, "label": "안개 숲" }], "spawns": [{ "id": "meadow-slimes", "monsterId": "green_slime", "x": 570, "y": 230, "width": 290, "height": 220, "max": 3, "respawnMs": 7000 }] },
+    "forest": { "name": "안개 숲", "subtitle": "길을 잃기 쉬운 위험 지역", "ground": "#294d3c", "path": "#776b50", "spawn": { "x": 55, "y": 270 }, "npcs": [{ "npcId": "kael", "x": 735, "y": 190 }], "exits": [{ "x": 15, "y": 270, "width": 30, "height": 150, "to": "meadow", "spawnX": 895, "spawnY": 270, "label": "햇살 들판" }], "spawns": [{ "id": "forest-wolves", "monsterId": "mist_wolf", "x": 350, "y": 190, "width": 310, "height": 250, "max": 2, "respawnMs": 10000 }] }
+  }
+}
