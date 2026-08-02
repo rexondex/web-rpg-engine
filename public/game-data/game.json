@@ -70,6 +70,9 @@
       "cliff_painted_v1": {
         "src": "./assets/maps/cliff-painted-v1.png"
       },
+      "wind_hill_painted_v1": {
+        "src": "./assets/maps/wind-hill-painted-v1.png"
+      },
       "waterfall_painted_v1": {
         "src": "./assets/maps/waterfall-painted-v1.png"
       },
@@ -885,9 +888,12 @@
         }
       ],
       "objects": [
-        { "id": "meadow_creek_north", "name": "북쪽 개울", "x": 158, "y": 112, "width": 190, "height": 205, "solid": true, "visible": false },
-        { "id": "meadow_creek_south", "name": "남쪽 개울", "x": 142, "y": 438, "width": 180, "height": 205, "solid": true, "visible": false },
-        { "id": "meadow_southwest_rocks", "name": "남서쪽 바위 지대", "x": 322, "y": 463, "width": 210, "height": 105, "solid": true, "visible": false }
+        { "id": "meadow_northwest_wilds", "name": "북서쪽 개울과 수림", "x": 170, "y": 105, "width": 340, "height": 190, "solid": true, "visible": false },
+        { "id": "meadow_north_rocks", "name": "북쪽 바위 군락", "x": 365, "y": 75, "width": 190, "height": 105, "solid": true, "visible": false },
+        { "id": "meadow_northeast_woods", "name": "북동쪽 수림", "x": 805, "y": 105, "width": 300, "height": 190, "solid": true, "visible": false },
+        { "id": "meadow_southwest_creek", "name": "남서쪽 개울", "x": 150, "y": 440, "width": 285, "height": 200, "solid": true, "visible": false },
+        { "id": "meadow_south_grove", "name": "남쪽 관목 지대", "x": 475, "y": 490, "width": 330, "height": 100, "solid": true, "visible": false },
+        { "id": "meadow_southeast_grove", "name": "남동쪽 수림", "x": 825, "y": 470, "width": 270, "height": 135, "solid": true, "visible": false }
       ],
       "exits": [
         {
@@ -954,10 +960,13 @@
         }
       ],
       "objects": [
-        { "id": "forest_northwest_cliffs", "name": "북서쪽 절벽", "x": 205, "y": 105, "width": 340, "height": 190, "solid": true, "visible": false },
-        { "id": "forest_southwest_cliffs", "name": "남서쪽 절벽", "x": 205, "y": 455, "width": 355, "height": 145, "solid": true, "visible": false },
-        { "id": "forest_east_trees", "name": "동쪽 수림", "x": 912, "y": 330, "width": 95, "height": 420, "solid": true, "visible": false },
-        { "id": "forest_south_cliffs", "name": "남쪽 절벽", "x": 650, "y": 512, "width": 460, "height": 56, "solid": true, "visible": false }
+        { "id": "forest_northwest_cliffs", "name": "북서쪽 절벽", "x": 205, "y": 105, "width": 410, "height": 190, "solid": true, "visible": false },
+        { "id": "forest_north_wall", "name": "북쪽 암벽 수림", "x": 700, "y": 55, "width": 520, "height": 110, "solid": true, "visible": false },
+        { "id": "forest_camp_wall", "name": "감시 야영지 울타리", "x": 790, "y": 105, "width": 210, "height": 95, "solid": true, "visible": false },
+        { "id": "forest_southwest_cliffs", "name": "남서쪽 절벽", "x": 205, "y": 455, "width": 400, "height": 145, "solid": true, "visible": false },
+        { "id": "forest_east_trees", "name": "동쪽 수림", "x": 930, "y": 330, "width": 60, "height": 420, "solid": true, "visible": false },
+        { "id": "forest_south_cliffs", "name": "남쪽 절벽", "x": 690, "y": 500, "width": 520, "height": 80, "solid": true, "visible": false },
+        { "id": "forest_west_inner_rocks", "name": "서쪽 안쪽 바위", "x": 285, "y": 330, "width": 165, "height": 105, "solid": true, "visible": false }
       ],
       "exits": [
         {
@@ -989,8 +998,21 @@
       "grid": { "x": 1, "y": -1 },
       "ground": "#607b55",
       "path": "#a99c72",
+      "pathOverlay": false,
+      "backgroundImage": "wind_hill_painted_v1",
+      "backgroundAlpha": 1,
       "spawn": { "x": 480, "y": 490 },
       "npcs": [],
+      "objects": [
+        { "id": "wind_west_drop", "name": "서쪽 구름 절벽", "x": 105, "y": 275, "width": 210, "height": 550, "solid": true, "visible": false },
+        { "id": "wind_northwest_ledge", "name": "북서쪽 바위 언덕", "x": 315, "y": 105, "width": 230, "height": 210, "solid": true, "visible": false },
+        { "id": "wind_north_gate", "name": "북쪽 능선", "x": 515, "y": 30, "width": 210, "height": 60, "solid": true, "visible": false },
+        { "id": "wind_northeast_ledge", "name": "북동쪽 바위 언덕", "x": 745, "y": 110, "width": 290, "height": 215, "solid": true, "visible": false },
+        { "id": "wind_east_upper_drop", "name": "동쪽 위 낭떠러지", "x": 925, "y": 105, "width": 70, "height": 210, "solid": true, "visible": false },
+        { "id": "wind_southwest_ledge", "name": "남서쪽 바위 언덕", "x": 315, "y": 435, "width": 235, "height": 210, "solid": true, "visible": false },
+        { "id": "wind_southeast_ledge", "name": "남동쪽 바위 언덕", "x": 745, "y": 435, "width": 310, "height": 210, "solid": true, "visible": false },
+        { "id": "wind_east_lower_drop", "name": "동쪽 아래 낭떠러지", "x": 930, "y": 430, "width": 60, "height": 220, "solid": true, "visible": false }
+      ],
       "exits": [
         { "x": 480, "y": 525, "width": 180, "height": 30, "direction": "south", "to": "meadow", "label": "햇살 들판" },
         { "x": 945, "y": 270, "width": 30, "height": 150, "direction": "east", "to": "cliff_pass", "label": "하늘절벽 길", "conditions": [{ "type": "flag", "id": "highlands_open", "value": true }], "lockedText": "카엘에게서 절벽 통행 허가를 받아야 합니다." }
@@ -1008,19 +1030,23 @@
       "backgroundAlpha": 1,
       "spawn": { "x": 48, "y": 270 },
       "npcs": [
-        { "npcId": "orin", "x": 625, "y": 225, "route": [{ "x": 735, "y": 300 }], "routeDurationMs": 5200 }
+        { "npcId": "orin", "x": 735, "y": 285, "route": [{ "x": 820, "y": 300 }], "routeDurationMs": 5200 }
       ],
       "objects": [
-        { "id": "cliff_north_void", "name": "북쪽 낭떠러지", "x": 485, "y": 72, "width": 690, "height": 125, "solid": true, "visible": false },
-        { "id": "cliff_south_void", "name": "남쪽 낭떠러지", "x": 500, "y": 487, "width": 720, "height": 92, "solid": true, "visible": false },
-        { "id": "cliff_camp", "name": "길잡이 야영지", "x": 650, "y": 205, "width": 120, "height": 72, "solid": true, "visible": false }
+        { "id": "cliff_northwest_wall", "name": "북서쪽 암벽", "x": 150, "y": 105, "width": 300, "height": 210, "solid": true, "visible": false },
+        { "id": "cliff_north_void", "name": "북쪽 낭떠러지", "x": 520, "y": 72, "width": 430, "height": 130, "solid": true, "visible": false },
+        { "id": "cliff_northeast_wall", "name": "북동쪽 암벽", "x": 875, "y": 105, "width": 170, "height": 210, "solid": true, "visible": false },
+        { "id": "cliff_southwest_void", "name": "남서쪽 낭떠러지", "x": 230, "y": 455, "width": 460, "height": 170, "solid": true, "visible": false },
+        { "id": "cliff_south_mid_void", "name": "남쪽 중앙 낭떠러지", "x": 500, "y": 500, "width": 180, "height": 80, "solid": true, "visible": false },
+        { "id": "cliff_southeast_void", "name": "남동쪽 낭떠러지", "x": 825, "y": 465, "width": 270, "height": 150, "solid": true, "visible": false },
+        { "id": "cliff_camp", "name": "길잡이 야영지", "x": 650, "y": 170, "width": 150, "height": 85, "solid": true, "visible": false }
       ],
       "exits": [
         { "x": 15, "y": 270, "width": 30, "height": 150, "direction": "west", "to": "north_ridge", "label": "바람 언덕" },
         { "x": 610, "y": 275, "width": 58, "height": 52, "direction": "north", "to": "waterfall_basin", "label": "은빛 폭포 오솔길", "targetX": 330, "targetY": 475, "conditions": [{ "type": "flag", "id": "waterfall_open", "value": true }], "lockedText": "오린에게 폭포 길을 안내받아야 합니다." }
       ],
       "spawns": [
-        { "id": "cliff-rockhorns", "monsterId": "rockhorn_ram", "x": 330, "y": 220, "width": 270, "height": 180, "max": 3, "respawnMs": 9000 }
+        { "id": "cliff-rockhorns", "monsterId": "rockhorn_ram", "x": 300, "y": 230, "width": 260, "height": 105, "max": 3, "respawnMs": 9000 }
       ]
     },
     "waterfall_basin": {
@@ -1034,19 +1060,25 @@
       "backgroundAlpha": 1,
       "spawn": { "x": 330, "y": 475 },
       "npcs": [
-        { "npcId": "selene", "x": 625, "y": 225, "route": [{ "x": 700, "y": 260 }], "routeDurationMs": 6200 }
+        { "npcId": "selene", "x": 735, "y": 350, "route": [{ "x": 810, "y": 385 }], "routeDurationMs": 6200 }
       ],
       "objects": [
         { "id": "falls_water_west", "name": "폭포 수역", "x": 135, "y": 265, "width": 250, "height": 520, "solid": true, "visible": false },
         { "id": "falls_water_north", "name": "폭포 상류", "x": 395, "y": 75, "width": 300, "height": 130, "solid": true, "visible": false },
-        { "id": "falls_north_cliff", "name": "북쪽 절벽", "x": 750, "y": 35, "width": 420, "height": 70, "solid": true, "visible": false }
+        { "id": "falls_north_cliff", "name": "북쪽 절벽", "x": 750, "y": 35, "width": 420, "height": 70, "solid": true, "visible": false },
+        { "id": "falls_west_pool", "name": "서쪽 깊은 물", "x": 330, "y": 285, "width": 125, "height": 245, "solid": true, "visible": false },
+        { "id": "falls_inner_pool", "name": "성소 안쪽 수로", "x": 535, "y": 205, "width": 150, "height": 105, "solid": true, "visible": false },
+        { "id": "falls_altar", "name": "수정 성소", "x": 590, "y": 250, "width": 145, "height": 125, "solid": true, "visible": false },
+        { "id": "falls_southwest_cliff", "name": "남서쪽 절벽", "x": 190, "y": 510, "width": 210, "height": 60, "solid": true, "visible": false },
+        { "id": "falls_south_cliff", "name": "남쪽 절벽", "x": 700, "y": 520, "width": 520, "height": 40, "solid": true, "visible": false },
+        { "id": "falls_east_crystals", "name": "동쪽 수정 군락", "x": 925, "y": 105, "width": 70, "height": 170, "solid": true, "visible": false }
       ],
       "exits": [
         { "x": 330, "y": 505, "width": 90, "height": 55, "direction": "south", "to": "cliff_pass", "label": "하늘절벽 길", "targetX": 610, "targetY": 335 },
         { "x": 945, "y": 270, "width": 30, "height": 150, "direction": "east", "to": "starfall_ruins", "label": "별의 고대 유적", "conditions": [{ "type": "flag", "id": "ruins_open", "value": true }], "lockedText": "셀레네의 조사 없이는 유적의 문을 열 수 없습니다." }
       ],
       "spawns": [
-        { "id": "falls-crabs", "monsterId": "crystalback_crab", "x": 570, "y": 300, "width": 280, "height": 170, "max": 4, "respawnMs": 8500 }
+        { "id": "falls-crabs", "monsterId": "crystalback_crab", "x": 650, "y": 330, "width": 230, "height": 140, "max": 4, "respawnMs": 8500 }
       ]
     },
     "starfall_ruins": {
@@ -1061,15 +1093,19 @@
       "spawn": { "x": 48, "y": 270 },
       "npcs": [],
       "objects": [
-        { "id": "ruins_north_void", "name": "북쪽 허공", "x": 470, "y": 48, "width": 760, "height": 85, "solid": true, "visible": false },
-        { "id": "ruins_south_void", "name": "남쪽 허공", "x": 510, "y": 510, "width": 790, "height": 58, "solid": true, "visible": false },
-        { "id": "ruins_east_wall", "name": "동쪽 봉인벽", "x": 932, "y": 270, "width": 55, "height": 430, "solid": true, "visible": false }
+        { "id": "ruins_northwest_void", "name": "북서쪽 성간 허공", "x": 185, "y": 100, "width": 370, "height": 200, "solid": true, "visible": false },
+        { "id": "ruins_north_void", "name": "북쪽 허공", "x": 650, "y": 38, "width": 540, "height": 75, "solid": true, "visible": false },
+        { "id": "ruins_southwest_void", "name": "남서쪽 허공", "x": 210, "y": 445, "width": 420, "height": 190, "solid": true, "visible": false },
+        { "id": "ruins_south_void", "name": "남쪽 허공", "x": 690, "y": 515, "width": 540, "height": 50, "solid": true, "visible": false },
+        { "id": "ruins_east_wall", "name": "동쪽 봉인벽", "x": 932, "y": 270, "width": 55, "height": 430, "solid": true, "visible": false },
+        { "id": "ruins_northeast_columns", "name": "북동쪽 붕괴 기둥", "x": 890, "y": 115, "width": 120, "height": 150, "solid": true, "visible": false },
+        { "id": "ruins_southeast_columns", "name": "남동쪽 붕괴 기둥", "x": 885, "y": 455, "width": 130, "height": 130, "solid": true, "visible": false }
       ],
       "exits": [
         { "x": 15, "y": 270, "width": 30, "height": 150, "direction": "west", "to": "waterfall_basin", "label": "은빛 폭포" }
       ],
       "spawns": [
-        { "id": "ruins-guardian", "monsterId": "starforged_guardian", "x": 570, "y": 185, "width": 170, "height": 150, "max": 1, "respawnMs": 60000 }
+        { "id": "ruins-guardian", "monsterId": "starforged_guardian", "x": 550, "y": 210, "width": 175, "height": 135, "max": 1, "respawnMs": 60000 }
       ]
     }
   }
