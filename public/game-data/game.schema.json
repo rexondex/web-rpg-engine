@@ -671,6 +671,18 @@
         "spawn": {
           "$ref": "#/$defs/point"
         },
+        "walkableAreas": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "name", "points"],
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "points": { "type": "array", "minItems": 3, "items": { "$ref": "#/$defs/point" } }
+            }
+          }
+        },
         "npcs": {
           "type": "array",
           "items": {

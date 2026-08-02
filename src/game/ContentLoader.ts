@@ -30,6 +30,7 @@ export function validateContent(data: GameProtocol): string[] {
   const issues: string[] = [];
   const gridCells = new Map<string, string>();
   const hasVisual = (id: string | undefined) => !!id && (!!data.assets?.images?.[id] || !!data.assets?.spritesheets?.[id]);
+  const insidePolygon = (point:{x:number;y:number},vertices:{x:number;y:number}[]):boolean => {let inside=false;for(let i=0,j=vertices.length-1;i<vertices.length;j=i++){const a=vertices[i],b=vertices[j];if((a.y>point.y)!==(b.y>point.y)&&point.x<(b.x-a.x)*(point.y-a.y)/(b.y-a.y)+a.x)inside=!inside;}return inside;};
   if (data.protocolVersion !== 3) issues.push(`protocolVersion: 지원 버전은 3입니다.`);
   if (!data.game?.id || !data.game?.version) issues.push('game.id와 game.version은 필수입니다.');
   if (!data.maps?.[data.player?.startMap]) issues.push(`player.startMap: 존재하지 않는 맵 '${data.player?.startMap}'`);
@@ -39,8 +40,11 @@ export function validateContent(data: GameProtocol): string[] {
   (data.player?.startingSkills ?? []).forEach((id) => { if (!data.skills?.[id]) issues.push(`player.startingSkills: 존재하지 않는 스킬 '${id}'`); });
   Object.entries(data.maps ?? {}).forEach(([mapId, map]) => {
     const cellKey = `${map.grid?.x},${map.grid?.y}`; if (gridCells.has(cellKey)) issues.push(`maps.${mapId}.grid: '${gridCells.get(cellKey)}' 맵과 좌표가 겹칩니다.`); else gridCells.set(cellKey, mapId);
+    const walkable=(point:{x:number;y:number})=>!map.walkableAreas?.length||map.walkableAreas.some(area=>insidePolygon(point,area.points));
+    map.walkableAreas?.forEach((area,i)=>{if(area.points.length<3)issues.push(`maps.${mapId}.walkableAreas[${i}]: 점이 3개 이상 필요합니다.`);area.points.forEach((point,j)=>{if(point.x<0||point.x>960||point.y<0||point.y>540)issues.push(`maps.${mapId}.walkableAreas[${i}].points[${j}]: 960×540 맵 범위를 벗어났습니다.`);});});
+    if(!walkable(map.spawn))issues.push(`maps.${mapId}.spawn: 보행 가능 영역 밖에 있습니다.`);
     map.exits.forEach((exit, i) => { const target = data.maps[exit.to]; if (!target) issues.push(`maps.${mapId}.exits[${i}].to: 존재하지 않는 맵 '${exit.to}'`); else if(exit.targetX===undefined||exit.targetY===undefined){ const dx=target.grid.x-map.grid.x,dy=target.grid.y-map.grid.y,expected=exit.direction==='east'?[1,0]:exit.direction==='west'?[-1,0]:exit.direction==='north'?[0,-1]:[0,1]; if(dx!==expected[0]||dy!==expected[1])issues.push(`maps.${mapId}.exits[${i}]: ${exit.direction} 출구와 '${exit.to}'의 격자 좌표가 맞지 않습니다.`); } });
-    map.npcs.forEach((placement, i) => { if (!data.npcs[placement.npcId]) issues.push(`maps.${mapId}.npcs[${i}]: 존재하지 않는 NPC '${placement.npcId}'`); });
+    map.npcs.forEach((placement, i) => { if (!data.npcs[placement.npcId]) issues.push(`maps.${mapId}.npcs[${i}]: 존재하지 않는 NPC '${placement.npcId}'`); if(!walkable(placement))issues.push(`maps.${mapId}.npcs[${i}]: 보행 가능 영역 밖에 있습니다.`); placement.route?.forEach((point,j)=>{if(!walkable(point))issues.push(`maps.${mapId}.npcs[${i}].route[${j}]: 보행 가능 영역 밖에 있습니다.`);}); });
     map.spawns.forEach((spawn, i) => { if (!data.monsters[spawn.monsterId]) issues.push(`maps.${mapId}.spawns[${i}]: 존재하지 않는 몬스터 '${spawn.monsterId}'`); if (spawn.max < 0 || spawn.respawnMs < 500) issues.push(`maps.${mapId}.spawns[${i}]: max와 respawnMs 값이 유효하지 않습니다.`); });
     if (map.backgroundImage && !data.assets?.images?.[map.backgroundImage]) issues.push(`maps.${mapId}.backgroundImage: 존재하지 않는 이미지 '${map.backgroundImage}'`);
     if (map.music && !data.assets?.audio?.[map.music]) issues.push(`maps.${mapId}.music: 존재하지 않는 오디오 '${map.music}'`);
